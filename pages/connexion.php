@@ -1,5 +1,5 @@
 <?php 
-include_once '../includes/header.php';
+include_once __DIR__ . '/../includes/header.php';
 
 $erreur = '';
 
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($utilisateur && password_verify($password, $utilisateur['password'])) {
         session_regenerate_id(true);
         $_SESSION['utilisateur'] = $utilisateur;
-        header('Location: /index.php');
+        header('Location: /vite-et-gourmand/index.php');
         exit;
     } else {
         $erreur = "Email ou mot de passe incorrect.";
@@ -31,27 +31,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Adresse email</label>
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mot de passe</label>
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-warning">Se connecter</button>
-                    </div>
-                    <p class="text-center mt-3">
-                        Pas encore de compte ? <a href="/pages/inscription.php">S'inscrire</a>
-                    </p>
-                    <p class="text-center">
-                        <a href="/pages/mot-de-passe-oublie.php">Mot de passe oublié ?</a>
-                    </p>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Adresse email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-warning">Se connecter</button>
+                        </div>
+                        <p class="text-center mt-3">
+                            Pas encore de compte ? <a href="/vite-et-gourmand/pages/inscription.php">S'inscrire</a>
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once __DIR__ . '/../includes/footer.php'; ?>

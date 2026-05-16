@@ -14,20 +14,20 @@ include_once __DIR__ . '/../config/db.php';
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/index.php">🍽️ Vite & Gourmand</a>
+        <a class="navbar-brand" href="/vite-et-gourmand/index.php">🍽️ Vite & Gourmand</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/index.php">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="/pages/menus.php">Nos menus</a></li>
-                <li class="nav-item"><a class="nav-link" href="/pages/contact.php">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/index.php">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/menus.php">Nos menus</a></li>
+                <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/contact.php">Contact</a></li>
                 <?php if (isset($_SESSION['utilisateur'])): ?>
-                    <li class="nav-item"><a class="nav-link" href="/pages/espace-utilisateur.php">Mon espace</a></li>
-                    <li class="nav-item"><a class="nav-link text-danger" href="/pages/deconnexion.php">Déconnexion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/espace-utilisateur.php">Mon espace</a></li>
+                    <li class="nav-item"><a class="nav-link text-danger" href="/vite-et-gourmand/pages/deconnexion.php">Déconnexion</a></li>
                 <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="/pages/connexion.php">Connexion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/connexion.php">Connexion</a></li>
                 <?php endif; ?>
             </ul>
         </div>

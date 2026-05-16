@@ -1,5 +1,5 @@
 <?php 
-include_once '../includes/header.php';
+include_once __DIR__ . '/../includes/header.php';
 
 $erreur = '';
 $succes = '';
@@ -12,26 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $adresse = trim($_POST['adresse_postale']);
     $password = $_POST['password'];
 
-    $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/';
-    if (!preg_match($regex, $password)) {
-        $erreur = "Le mot de passe doit contenir au moins 10 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erreur = "Adresse email invalide.";
     } else {
-        $stmt = $pdo->prepare("SELECT utilisateur_id FROM utilisateur WHERE email = :email");
-        $stmt->execute([':email' => $email]);
-        if ($stmt->fetch()) {
-            $erreur = "Cet email est déjà utilisé.";
+        $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/';
+        if (!preg_match($regex, $password)) {
+            $erreur = "Le mot de passe doit contenir au moins 10 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
         } else {
-            $hash = password_hash($password, PASSWORD_BCRYPT);
-            $stmt = $pdo->prepare("INSERT INTO utilisateur (email, password, nom, prenom, telephone, adresse_postale, statut, role_id) VALUES (:email, :password, :nom, :prenom, :telephone, :adresse, 1, 3)");
-            $stmt->execute([
-                ':email' => $email,
-                ':password' => $hash,
-                ':nom' => $nom,
-                ':prenom' => $prenom,
-                ':telephone' => $telephone,
-                ':adresse' => $adresse
-            ]);
-            $succes = "Compte créé avec succès ! Vous pouvez vous connecter.";
+            $stmt = $pdo->prepare("SELECT utilisateur_id FROM utilisateur WHERE email = :email");
+            $stmt->execute([':email' => $email]);
+            if ($stmt->fetch()) {
+                $erreur = "Cet email est déjà utilisé.";
+            } else {
+                $hash = password_hash($password, PASSWORD_BCRYPT);
+                $stmt = $pdo->prepare("INSERT INTO utilisateur (email, password, nom, prenom, telephone, adresse_postale, statut, role_id) VALUES (:email, :password, :nom, :prenom, :telephone, :adresse, 1, 3)");
+                $stmt->execute([
+                    ':email' => $email,
+                    ':password' => $hash,
+                    ':nom' => $nom,
+                    ':prenom' => $prenom,
+                    ':telephone' => $telephone,
+                    ':adresse' => $adresse
+                ]);
+                $succes = "Compte créé avec succès ! Vous pouvez vous connecter.";
+            }
         }
     }
 }
@@ -45,7 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="alert alert-danger"><?= htmlspecialchars($erreur) ?></div>
             <?php endif; ?>
             <?php if ($succes): ?>
-                <div class="alert alert-success"><?= htmlspecialchars($succes) ?></div>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars($succes) ?>
+                    <br><a href="/vite-et-gourmand/pages/connexion.php" class="alert-link">Cliquez ici pour vous connecter</a>
+                </div>
             <?php endif; ?>
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -81,5 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit" class="btn btn-warning">Créer mon compte</button>
                         </div>
                         <p class="text-center mt-3">
-                            Déjà un compte ? <a href="/pages/connexion.php">Se connecter</a>
+                            Déjà un compte ? <a href="/vite-et-gourmand/pages/connexion.php">Se connecter</a>
                         </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<?php include_once __DIR__ . '/../includes/footer.php'; ?>
