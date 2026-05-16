@@ -2,7 +2,7 @@
 include_once __DIR__ . '/../includes/header.php';
 
 if (!isset($_SESSION['utilisateur']) || !in_array($_SESSION['utilisateur']['role'], ['employe', 'administrateur'])) {
-    header('Location: /vite-et-gourmand/pages/connexion.php');
+    header('Location: ' . $BASE_URL . '/pages/connexion.php');
     exit;
 }
 
@@ -86,7 +86,7 @@ $avis = $pdo->query("SELECT a.*, u.nom, u.prenom FROM avis a JOIN utilisateur u 
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
                     <button type="submit" class="btn btn-warning me-2">Filtrer</button>
-                    <a href="/vite-et-gourmand/pages/espace-employe.php" class="btn btn-outline-secondary">Réinitialiser</a>
+                    <a href="<?= $BASE_URL ?>/pages/espace-employe.php" class="btn btn-outline-secondary">Réinitialiser</a>
                 </div>
             </form>
         </div>

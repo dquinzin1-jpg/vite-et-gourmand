@@ -1,0 +1,23 @@
+# Fichiers de configuration sensibles
+.env
+.env.local
+config/.env
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de l'éditeur
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Dépendances
+/vendor/
+/node_modules/
+
+# Fichiers temporaires
+*.tmp
+*.bak

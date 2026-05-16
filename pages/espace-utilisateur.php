@@ -2,7 +2,7 @@
 include_once __DIR__ . '/../includes/header.php';
 
 if (!isset($_SESSION['utilisateur'])) {
-    header('Location: /vite-et-gourmand/pages/connexion.php');
+    header('Location: ' . $BASE_URL . '/pages/connexion.php');
     exit;
 }
 
@@ -110,7 +110,7 @@ $commandes = $stmt->fetchAll();
                             <?php endif; ?>
 
                             <?php if (in_array($commande['statut'], ['accepte', 'en preparation', 'en cours de livraison', 'livre', 'terminee'])): ?>
-                                <a href="/vite-et-gourmand/pages/suivi-commande.php?id=<?= $commande['commande_id'] ?>" class="btn btn-sm btn-outline-warning">Suivre ma commande</a>
+                                <a href="<?= $BASE_URL ?>/pages/suivi-commande.php?id=<?= $commande['commande_id'] ?>" class="btn btn-sm btn-outline-warning">Suivre ma commande</a>
                             <?php endif; ?>
                         </div>
                     </div>

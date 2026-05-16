@@ -2,7 +2,7 @@
 include_once __DIR__ . '/../includes/header.php';
 
 if (!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] !== 'administrateur') {
-    header('Location: /vite-et-gourmand/pages/connexion.php');
+    header('Location: ' . $BASE_URL . '/pages/connexion.php');
     exit;
 }
 

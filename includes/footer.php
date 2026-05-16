@@ -15,13 +15,13 @@
                 <?php endforeach; ?>
             </div>
             <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                <a href="/pages/mentions-legales.php" class="text-white me-3">Mentions légales</a>
-                <a href="/pages/cgv.php" class="text-white">CGV</a>
+                <a href="<?= $BASE_URL ?>/pages/mentions-legales.php" class="text-white me-3">Mentions légales</a>
+                <a href="<?= $BASE_URL ?>/pages/cgv.php" class="text-white">CGV</a>
                 <p class="mt-2 mb-0">© <?= date('Y') ?> Vite & Gourmand - Tous droits réservés</p>
             </div>
         </div>
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/vite-et-gourmand/assets/js/script.js"></script>
+<script src="<?= $BASE_URL ?>/assets/js/script.js"></script>
 </html>

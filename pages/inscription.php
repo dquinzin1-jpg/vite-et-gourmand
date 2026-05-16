@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if ($succes): ?>
                 <div class="alert alert-success">
                     <?= htmlspecialchars($succes) ?>
-                    <br><a href="/vite-et-gourmand/pages/connexion.php" class="alert-link">Cliquez ici pour vous connecter</a>
+                    <br><a href="<?= $BASE_URL ?>/pages/connexion.php" class="alert-link">Cliquez ici pour vous connecter</a>
                 </div>
             <?php endif; ?>
             <div class="card shadow-sm">
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit" class="btn btn-warning">Créer mon compte</button>
                         </div>
                         <p class="text-center mt-3">
-                            Déjà un compte ? <a href="/vite-et-gourmand/pages/connexion.php">Se connecter</a>
+                            Déjà un compte ? <a href="<?= $BASE_URL ?>/pages/connexion.php">Se connecter</a>
                         </p>
                     </form>
                 </div>

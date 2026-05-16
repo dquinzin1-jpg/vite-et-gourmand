@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($utilisateur && password_verify($password, $utilisateur['password'])) {
         session_regenerate_id(true);
         $_SESSION['utilisateur'] = $utilisateur;
-        header('Location: /vite-et-gourmand/index.php');
+        header('Location: ' . $BASE_URL . '/index.php');
         exit;
     } else {
         $erreur = "Email ou mot de passe incorrect.";
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit" class="btn btn-warning">Se connecter</button>
                         </div>
                         <p class="text-center mt-3">
-                            Pas encore de compte ? <a href="/vite-et-gourmand/pages/inscription.php">S'inscrire</a>
+                            Pas encore de compte ? <a href="<?= $BASE_URL ?>/pages/inscription.php">S'inscrire</a>
                         </p>
                     </form>
                 </div>

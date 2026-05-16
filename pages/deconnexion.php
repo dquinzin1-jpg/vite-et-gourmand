@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+// Détection automatique du préfixe d'URL
+if (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false) {
+    $BASE_URL = '';
+} else {
+    $BASE_URL = '/vite-et-gourmand';
+}
+
 // On vide toutes les variables de session
 $_SESSION = [];
 
@@ -17,6 +24,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirection vers la page d'accueil
-header('Location: /vite-et-gourmand/index.php');
+header('Location: ' . $BASE_URL . '/index.php');
 exit;
 ?>
