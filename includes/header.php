@@ -1,6 +1,16 @@
 <?php
 session_start();
 include_once __DIR__ . '/../config/db.php';
+
+// Détermine le lien "Mon espace" selon le rôle de l'utilisateur connecté
+$lien_espace = '/vite-et-gourmand/pages/espace-utilisateur.php';
+if (isset($_SESSION['utilisateur']['role'])) {
+    if ($_SESSION['utilisateur']['role'] === 'administrateur') {
+        $lien_espace = '/vite-et-gourmand/pages/espace-admin.php';
+    } elseif ($_SESSION['utilisateur']['role'] === 'employe') {
+        $lien_espace = '/vite-et-gourmand/pages/espace-employe.php';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -24,7 +34,7 @@ include_once __DIR__ . '/../config/db.php';
                 <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/menus.php">Nos menus</a></li>
                 <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/contact.php">Contact</a></li>
                 <?php if (isset($_SESSION['utilisateur'])): ?>
-                    <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/espace-utilisateur.php">Mon espace</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= $lien_espace ?>">Mon espace</a></li>
                     <li class="nav-item"><a class="nav-link text-danger" href="/vite-et-gourmand/pages/deconnexion.php">Déconnexion</a></li>
                 <?php else: ?>
                     <li class="nav-item"><a class="nav-link" href="/vite-et-gourmand/pages/connexion.php">Connexion</a></li>

@@ -1,8 +1,8 @@
 <?php 
-include_once '../includes/header.php';
+include_once __DIR__ . '/../includes/header.php';
 
 if (!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] !== 'administrateur') {
-    header('Location: /pages/connexion.php');
+    header('Location: /vite-et-gourmand/pages/connexion.php');
     exit;
 }
 
@@ -184,4 +184,4 @@ new Chart(document.getElementById('graphique-commandes'), {
 });
 </script>
 
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once __DIR__ . '/../includes/footer.php'; ?>

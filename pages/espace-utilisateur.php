@@ -1,8 +1,8 @@
 <?php 
-include_once '../includes/header.php';
+include_once __DIR__ . '/../includes/header.php';
 
 if (!isset($_SESSION['utilisateur'])) {
-    header('Location: /pages/connexion.php');
+    header('Location: /vite-et-gourmand/pages/connexion.php');
     exit;
 }
 
@@ -22,6 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     $_SESSION['utilisateur']['nom'] = $nom;
     $_SESSION['utilisateur']['prenom'] = $prenom;
+    $_SESSION['utilisateur']['telephone'] = $telephone;
+    $_SESSION['utilisateur']['adresse_postale'] = $adresse;
+    $utilisateur = $_SESSION['utilisateur'];
     $succes = "Vos informations ont été mises à jour.";
 }
 
@@ -107,7 +110,7 @@ $commandes = $stmt->fetchAll();
                             <?php endif; ?>
 
                             <?php if (in_array($commande['statut'], ['accepte', 'en preparation', 'en cours de livraison', 'livre', 'terminee'])): ?>
-                                <a href="/pages/suivi-commande.php?id=<?= $commande['commande_id'] ?>" class="btn btn-sm btn-outline-warning">Suivre ma commande</a>
+                                <a href="/vite-et-gourmand/pages/suivi-commande.php?id=<?= $commande['commande_id'] ?>" class="btn btn-sm btn-outline-warning">Suivre ma commande</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -117,4 +120,4 @@ $commandes = $stmt->fetchAll();
     </div>
 </main>
 
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once __DIR__ . '/../includes/footer.php'; ?>
