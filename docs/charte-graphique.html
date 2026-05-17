@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Charte graphique — Vite & Gourmand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* CHARTE GRAPHIQUE — VITE & GOURMAND  v2 corrigée */
+  :root {
+    --bordeaux: #7A1F2A;
+    --bordeaux-dark: #5A1620;
+    --or: #C9A875;
+    --or-dark: #A88955;
+    --or-light: #E0C99B;
+    --creme: #F4EBDD;
+    --creme-light: #FAF5EC;
+    --brun-très-foncé: #1A1410;
+    --sauge: #9CAF88;
+    --texte: #1A1410;
+    --texte-muet: #6B5D52;
+    --texte-clair: #F5EDE0;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: var(--sans);
+    color: var(--texte);
+    background: #ddd;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none !important; margin: 0 !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  }
+
+  /* STRUCTURE A4 — flex column pour ranger header + contenu + footer */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 8mm auto;
+    background: var(--creme-light);
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  .page-number {
+    position: absolute; bottom: 8mm; right: 16mm;
+    font-family: var(--mono); font-size: 8.5pt;
+    color: var(--texte-muet); letter-spacing: 0.1em; z-index: 10;
+  }
+  .page-marker {
+    position: absolute; top: 14mm; left: 16mm;
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--or-dark); letter-spacing: 0.2em;
+    text-transform: uppercase; z-index: 10;
+  }
+  .page-footer-brand {
+    position: absolute; bottom: 8mm; left: 16mm;
+    font-family: var(--serif); font-style: italic;
+    font-size: 9.5pt; color: var(--texte-muet); z-index: 10;
+  }
+  .page-footer-brand span { color: var(--or-dark); }
+
+  /* COUVERTURE */
+  .cover {
+    background: var(--brun-très-foncé);
+    color: var(--texte-clair);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+  }
+  .cover-left {
+    padding: 28mm 14mm 20mm 20mm;
+    display: flex; flex-direction: column;
+    justify-content: space-between; position: relative;
+  }
+  .cover-eyebrow {
+    font-family: var(--mono); font-size: 9pt;
+    color: var(--or); letter-spacing: 0.35em; text-transform: uppercase;
+  }
+  .cover-title {
+    font-family: var(--serif); font-weight: 800;
+    font-size: 78pt; line-height: 0.95;
+    color: var(--creme); margin-top: 6mm;
+  }
+  .cover-sub {
+    font-family: var(--serif); font-style: italic;
+    font-size: 22pt; color: var(--or-light); margin-top: 8mm;
+  }
+  .cover-sub .amp { color: var(--or); }
+  .cover-decoration {
+    width: 80mm; height: 1px;
+    background: linear-gradient(to right, var(--or), transparent);
+    margin: 14mm 0;
+  }
+  .cover-tagline {
+    font-family: var(--sans); font-weight: 300;
+    font-size: 10.5pt; line-height: 1.7;
+    color: rgba(245, 237, 224, 0.7); max-width: 90mm;
+  }
+  .cover-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--mono); font-size: 8pt;
+    color: rgba(245, 237, 224, 0.5);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .cover-bottom strong { color: var(--or); font-weight: 500; }
+  .cover-right {
+    background-image: url('../assets/images/hero-accueil.jpg');
+    background-size: cover; background-position: center; position: relative;
+  }
+  .cover-right::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(26, 20, 16, 0.4) 0%, rgba(122, 31, 42, 0.5) 100%);
+  }
+  .cover-volume {
+    position: absolute; bottom: 20mm; right: 14mm; z-index: 2;
+    color: var(--creme); font-family: var(--serif);
+    font-style: italic; text-align: right;
+  }
+  .cover-volume-label {
+    font-family: var(--mono); font-style: normal; font-size: 8pt;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--or-light); display: block; margin-bottom: 3mm;
+  }
+  .cover-volume-num { font-size: 36pt; line-height: 1; font-weight: 400; }
+
+  /* SOMMAIRE */
+  .toc { padding: 26mm 24mm 22mm 24mm; }
+  .section-eyebrow {
+    font-family: var(--mono); font-size: 8.5pt;
+    color: var(--bordeaux); letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 5mm;
+  }
+  .section-title {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 38pt; line-height: 1;
+    color: var(--brun-très-foncé); margin-bottom: 4mm;
+  }
+  .section-title .italic { font-style: italic; color: var(--bordeaux); font-weight: 500; }
+  .section-lead {
+    font-family: var(--serif); font-style: italic;
+    font-size: 12pt; color: var(--texte-muet);
+    margin-bottom: 10mm; max-width: 140mm; line-height: 1.4;
+  }
+  .toc-list { list-style: none; margin-top: 8mm; }
+  .toc-item {
+    display: grid; grid-template-columns: 14mm 1fr auto;
+    align-items: baseline; padding: 4.5mm 0;
+    border-bottom: 1px solid rgba(107, 93, 82, 0.15);
+  }
+  .toc-num { font-family: var(--mono); font-size: 10pt; color: var(--or-dark); }
+  .toc-label { font-family: var(--serif); font-size: 16pt; color: var(--brun-très-foncé); }
+  .toc-page { font-family: var(--mono); font-size: 9.5pt; color: var(--texte-muet); }
+
+  /* PAGES INTÉRIEURES — bottom-padding suffisant pour ne pas chevaucher le footer */
+  .inner {
+    padding: 24mm 18mm 22mm 18mm;
+    flex: 1; overflow: hidden;
+  }
+
+  /* PALETTE */
+  .palette-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5mm; margin-top: 4mm;
+  }
+  .color-card {
+    border: 1px solid rgba(107, 93, 82, 0.12);
+    background: white; overflow: hidden;
+  }
+  .color-card.big {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .color-swatch { height: 32mm; position: relative; }
+  .color-card.big .color-swatch { height: auto; min-height: 40mm; }
+  .color-card.big .color-info { padding: 6mm 7mm; }
+  .color-info { padding: 4.5mm 6mm; }
+  .color-name {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 14pt; color: var(--brun-très-foncé); margin-bottom: 1.5mm;
+  }
+  .color-hex { font-family: var(--mono); font-size: 10pt; color: var(--bordeaux); margin-bottom: 1mm; }
+  .color-rgb { font-family: var(--mono); font-size: 8pt; color: var(--texte-muet); margin-bottom: 3mm; }
+  .color-usage { font-family: var(--sans); font-size: 8.5pt; line-height: 1.5; color: var(--texte-muet); }
+  .color-role {
+    position: absolute; top: 3mm; left: 3mm;
+    font-family: var(--mono); font-size: 7pt;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 1.2mm 2.5mm; background: rgba(0,0,0,0.25);
+    color: white; border-radius: 1mm;
+  }
+  .color-role.dark { background: rgba(255,255,255,0.2); color: white; }
+
+  /* TYPOGRAPHIES */
+  .type-block {
+    margin-top: 6mm; padding: 6mm 8mm;
+    background: white;
+    border-left: 4px solid var(--bordeaux);
+    border-bottom: 1px solid rgba(107, 93, 82, 0.12);
+  }
+  .type-block.gold { border-left-color: var(--or); }
+  .type-meta {
+    display: flex; justify-content: space-between;
+    align-items: baseline; margin-bottom: 4mm;
+    padding-bottom: 3mm; border-bottom: 1px dashed rgba(107, 93, 82, 0.2);
+  }
+  .type-meta-label {
+    font-family: var(--mono); font-size: 7.5pt;
+    color: var(--texte-muet); text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+  .type-name {
+    font-family: var(--serif); font-size: 20pt;
+    color: var(--brun-très-foncé); font-weight: 600;
+  }
+  .type-name.sans { font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em; }
+  .type-specimen-aa {
+    font-size: 72pt; line-height: 0.9;
+    color: var(--bordeaux); margin: 2mm 0 4mm 0;
+  }
+  .type-specimen-aa.serif { font-family: var(--serif); font-weight: 800; font-style: italic; }
+  .type-specimen-aa.sans { font-family: var(--sans); font-weight: 700; color: var(--brun-très-foncé); }
+  .type-pangram { font-size: 13pt; line-height: 1.3; color: var(--texte); margin-bottom: 3mm; }
+  .type-pangram.serif { font-family: var(--serif); }
+  .type-pangram.sans { font-family: var(--sans); font-weight: 400; }
+  .type-weights {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 5mm; margin-top: 3mm; padding-top: 3mm;
+    border-top: 1px dashed rgba(107, 93, 82, 0.2);
+  }
+  .type-weight { font-size: 10pt; }
+  .type-weight-num {
+    font-family: var(--mono); font-size: 7pt;
+    color: var(--or-dark); display: block; margin-bottom: 1mm;
+  }
+
+  /* LOGO */
+  .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 6mm; }
+  .logo-card {
+    padding: 10mm; display: flex; align-items: center; justify-content: center;
+    min-height: 48mm; position: relative; border: 1px solid rgba(107, 93, 82, 0.12);
+  }
+  .logo-card.dark { background: var(--brun-très-foncé); }
+  .logo-card.bordeaux { background: var(--bordeaux); }
+  .logo-card.creme { background: var(--creme); }
+  .logo-card.white { background: white; }
+  .logo-card-label {
+    position: absolute; top: 3mm; left: 3mm;
+    font-family: var(--mono); font-size: 7pt;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .logo-card.dark .logo-card-label,
+  .logo-card.bordeaux .logo-card-label { color: rgba(255,255,255,0.5); }
+  .logo-mark { font-family: var(--serif); font-weight: 700; font-size: 24pt; line-height: 1; }
+  .logo-mark .amp { color: var(--or); font-style: italic; font-weight: 500; }
+  .logo-card.dark .logo-mark,
+  .logo-card.bordeaux .logo-mark { color: var(--creme); }
+  .logo-card.creme .logo-mark,
+  .logo-card.white .logo-mark { color: var(--brun-très-foncé); }
+
+  .logo-rules { margin-top: 5mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .rule-card { padding: 6mm 7mm; background: white; border-top: 3px solid var(--sauge); }
+  .rule-card.dont { border-top-color: var(--bordeaux); }
+  .rule-title {
+    font-family: var(--mono); font-size: 7.5pt;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sauge); margin-bottom: 3mm; font-weight: 600;
+  }
+  .rule-card.dont .rule-title { color: var(--bordeaux); }
+  .rule-list { list-style: none; }
+  .rule-list li {
+    font-size: 9.5pt; line-height: 1.55;
+    color: var(--texte); padding-left: 5mm;
+    position: relative; margin-bottom: 1.5mm;
+  }
+  .rule-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--sauge); font-weight: 700;
+  }
+  .rule-card.dont .rule-list li::before { content: '✕'; color: var(--bordeaux); }
+
+  /* COMPOSANTS */
+  .ui-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 6mm; }
+  .ui-card { padding: 6mm 7mm; background: white; border: 1px solid rgba(107, 93, 82, 0.12); }
+  .ui-card-label {
+    font-family: var(--mono); font-size: 7pt;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--or-dark); margin-bottom: 4mm;
+  }
+  .ui-card-title { font-family: var(--serif); font-size: 12pt; color: var(--brun-très-foncé); margin-bottom: 4mm; font-weight: 600; }
+  .btn {
+    display: inline-block; font-family: var(--sans);
+    font-weight: 600; font-size: 9pt; padding: 3mm 6mm;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    border: none; cursor: pointer; border-radius: 1mm; margin: 1mm;
+  }
+  .btn-primary { background: var(--bordeaux); color: var(--creme); }
+  .btn-secondary { background: var(--or); color: var(--brun-très-foncé); }
+  .btn-ghost { background: transparent; color: var(--bordeaux); border: 1.5px solid var(--bordeaux); }
+  .form-demo label {
+    display: block; font-family: var(--sans);
+    font-size: 8pt; font-weight: 600;
+    color: var(--brun-très-foncé); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 2mm;
+  }
+  .form-demo input {
+    width: 100%; padding: 2.5mm 3.5mm;
+    font-family: var(--sans); font-size: 9.5pt;
+    border: 1px solid rgba(107, 93, 82, 0.3);
+    background: var(--creme-light); color: var(--texte);
+    border-radius: 1mm;
+  }
+  .menu-card-demo {
+    background: var(--creme-light); padding: 4.5mm 5mm;
+    border-radius: 2mm; position: relative; margin-top: 3mm;
+  }
+  .menu-price-badge {
+    position: absolute; top: 3.5mm; right: 3.5mm;
+    background: var(--bordeaux); color: var(--creme);
+    padding: 1.5mm 3mm; font-family: var(--serif);
+    font-size: 10pt; font-style: italic; border-radius: 1mm;
+  }
+  .menu-card-title { font-family: var(--serif); font-size: 13pt; color: var(--bordeaux); margin-bottom: 2mm; font-weight: 600; }
+  .menu-card-desc { font-size: 8.5pt; line-height: 1.5; color: var(--texte-muet); }
+  .badges-row { display: flex; flex-wrap: wrap; gap: 2mm; margin-top: 2mm; }
+  .badge-demo {
+    font-family: var(--mono); font-size: 7pt;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    padding: 1.5mm 3mm; border-radius: 1mm;
+  }
+  .badge-demo.bx { background: rgba(122, 31, 42, 0.1); color: var(--bordeaux); }
+  .badge-demo.or { background: rgba(201, 168, 117, 0.2); color: var(--or-dark); }
+  .badge-demo.sg { background: rgba(156, 175, 136, 0.2); color: #5C7048; }
+
+  /* CAPTURES — via background-image (plus fiable que <img>) */
+  .captures-intro { margin-bottom: 6mm; }
+  .captures-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .capture-card {
+    background: white; padding: 3mm;
+    border: 1px solid rgba(107, 93, 82, 0.12);
+    display: flex; flex-direction: column;
+  }
+  .capture-img {
+    width: 100%; height: 78mm;
+    background-color: var(--creme);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(107, 93, 82, 0.1);
+  }
+  .capture-meta {
+    margin-top: 3mm; display: flex;
+    justify-content: space-between; align-items: baseline;
+  }
+  .capture-label { font-family: var(--serif); font-size: 10.5pt; color: var(--brun-très-foncé); font-weight: 600; }
+  .capture-num { font-family: var(--mono); font-size: 7pt; color: var(--or-dark); letter-spacing: 0.2em; }
+
+  /* COLOPHON */
+  .colophon {
+    background: var(--brun-très-foncé);
+    color: var(--texte-clair);
+    justify-content: center;
+    padding: 30mm 24mm;
+  }
+  .colophon-eyebrow {
+    font-family: var(--mono); font-size: 9pt;
+    color: var(--or); letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 8mm;
+  }
+  .colophon-title {
+    font-family: var(--serif); font-size: 48pt; line-height: 1;
+    margin-bottom: 14mm; color: var(--creme); font-weight: 700;
+  }
+  .colophon-title em { color: var(--or); font-weight: 400; }
+  .colophon-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; margin-top: 8mm; }
+  .meta-row { border-top: 1px solid rgba(245, 237, 224, 0.15); padding-top: 5mm; }
+  .meta-label {
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--or); letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 3mm;
+  }
+  .meta-value { font-family: var(--serif); font-size: 16pt; color: var(--creme); }
+  .meta-value.small { font-size: 11pt; font-family: var(--sans); font-weight: 300; color: rgba(245, 237, 224, 0.8); }
+  .colophon-bottom {
+    margin-top: auto; padding-top: 14mm;
+    border-top: 1px solid rgba(245, 237, 224, 0.15);
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--mono); font-size: 8pt;
+    color: rgba(245, 237, 224, 0.5);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .colophon-bottom strong { color: var(--or); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 — COUVERTURE -->
+<section class="page cover">
+  <div class="cover-left">
+    <div>
+      <div class="cover-eyebrow">— Brand Book · 2026</div>
+      <h1 class="cover-title">Charte<br><em style="font-style:italic;font-weight:500;color:var(--or)">graphique</em></h1>
+      <div class="cover-decoration"></div>
+      <div class="cover-sub">Vite <span class="amp">&</span> Gourmand</div>
+      <p class="cover-tagline">
+        Document d'identité visuelle pour la plateforme de réservation et de gestion d'événements culinaires du traiteur bordelais Vite & Gourmand. Définit les fondamentaux graphiques : couleurs, typographies, déclinaisons du logo et composants d'interface.
+      </p>
+    </div>
+    <div class="cover-bottom">
+      <span>Auteur · <strong>Dylan Quinzin</strong></span>
+      <span>Volume <strong>01</strong></span>
+    </div>
+  </div>
+  <div class="cover-right">
+    <div class="cover-volume">
+      <span class="cover-volume-label">Édition</span>
+      <div class="cover-volume-num">v1.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 — SOMMAIRE -->
+<section class="page">
+  <div class="page-marker">Sommaire</div>
+  <div class="toc">
+    <div class="section-eyebrow">— Index général</div>
+    <h2 class="section-title">Au <span class="italic">sommaire</span></h2>
+    <p class="section-lead">
+      Ce document présente les éléments fondamentaux de l'identité visuelle de Vite & Gourmand. Chaque section décrit un aspect précis de la marque, illustré d'exemples concrets issus de la plateforme.
+    </p>
+    <ol class="toc-list">
+      <li class="toc-item"><span class="toc-num">01</span><span class="toc-label">Palette de couleurs</span><span class="toc-page">p. 03</span></li>
+      <li class="toc-item"><span class="toc-num">02</span><span class="toc-label">Typographies</span><span class="toc-page">p. 04</span></li>
+      <li class="toc-item"><span class="toc-num">03</span><span class="toc-label">Logo &amp; déclinaisons</span><span class="toc-page">p. 05</span></li>
+      <li class="toc-item"><span class="toc-num">04</span><span class="toc-label">Composants d'interface</span><span class="toc-page">p. 06</span></li>
+      <li class="toc-item"><span class="toc-num">05</span><span class="toc-label">Aperçu de la plateforme</span><span class="toc-page">p. 07</span></li>
+      <li class="toc-item"><span class="toc-num">06</span><span class="toc-label">Colophon</span><span class="toc-page">p. 09</span></li>
+    </ol>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">02 / 09</div>
+</section>
+
+<!-- PAGE 3 — PALETTE -->
+<section class="page">
+  <div class="page-marker">01 — Couleurs</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 01</div>
+    <h2 class="section-title">Palette de <span class="italic">couleurs</span></h2>
+    <p class="section-lead">Une palette inspirée de la table bordelaise : profondeur du vin, éclat de l'or, douceur de la nappe en lin.</p>
+    <div class="palette-grid">
+      <div class="color-card big">
+        <div class="color-swatch" style="background: var(--bordeaux);"><span class="color-role dark">Primaire</span></div>
+        <div class="color-info">
+          <div class="color-name">Bordeaux</div>
+          <div class="color-hex">#7A1F2A</div>
+          <div class="color-rgb">RGB · 122, 31, 42</div>
+          <p class="color-usage">Couleur dominante de la marque. Utilisée pour les titres principaux, les boutons d'action, les badges de prix et les éléments de navigation actifs. Évoque la tradition viticole bordelaise.</p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: var(--or);"><span class="color-role dark">Accent</span></div>
+        <div class="color-info">
+          <div class="color-name">Or</div>
+          <div class="color-hex">#C9A875</div>
+          <div class="color-rgb">RGB · 201, 168, 117</div>
+          <p class="color-usage">Accent décoratif : esperluettes, séparateurs, accents typographiques en italique, boutons secondaires.</p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: var(--creme);"><span class="color-role" style="background: rgba(0,0,0,0.4);">Fond</span></div>
+        <div class="color-info">
+          <div class="color-name">Crème</div>
+          <div class="color-hex">#F4EBDD</div>
+          <div class="color-rgb">RGB · 244, 235, 221</div>
+          <p class="color-usage">Couleur de fond principale. Confère chaleur et lisibilité, contraste idéal avec le bordeaux.</p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: var(--brun-très-foncé);"><span class="color-role dark">Texte</span></div>
+        <div class="color-info">
+          <div class="color-name">Brun très foncé</div>
+          <div class="color-hex">#1A1410</div>
+          <div class="color-rgb">RGB · 26, 20, 16</div>
+          <p class="color-usage">Couleur principale du texte. Plus chaleureuse qu'un noir pur, elle préserve l'élégance.</p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: var(--sauge);"><span class="color-role dark">Secondaire</span></div>
+        <div class="color-info">
+          <div class="color-name">Vert sauge</div>
+          <div class="color-hex">#9CAF88</div>
+          <div class="color-rgb">RGB · 156, 175, 136</div>
+          <p class="color-usage">Accent secondaire pour les messages de validation et les badges de statut positifs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">03 / 09</div>
+</section>
+
+<!-- PAGE 4 — TYPOGRAPHIES -->
+<section class="page">
+  <div class="page-marker">02 — Typographies</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 02</div>
+    <h2 class="section-title"><span class="italic">Typo</span>graphies</h2>
+    <p class="section-lead">Un duo classique : Playfair Display pour la prestance, Inter pour la lisibilité fonctionnelle.</p>
+    <div class="type-block">
+      <div class="type-meta">
+        <span class="type-name">Playfair Display</span>
+        <span class="type-meta-label">Display · Serif · Google Fonts</span>
+      </div>
+      <div class="type-specimen-aa serif">Aa</div>
+      <p class="type-pangram serif">Bordeaux, un voyage gourmand au cœur du Sud-Ouest.</p>
+      <div class="type-weights">
+        <div class="type-weight serif" style="font-weight:400"><span class="type-weight-num">400 · Regular</span>Lorem ipsum dolor</div>
+        <div class="type-weight serif" style="font-weight:600"><span class="type-weight-num">600 · Semi-Bold</span>Lorem ipsum dolor</div>
+        <div class="type-weight serif" style="font-weight:700"><span class="type-weight-num">700 · Bold</span>Lorem ipsum dolor</div>
+        <div class="type-weight serif" style="font-style:italic;font-weight:500"><span class="type-weight-num">500 · Italic</span>Lorem ipsum dolor</div>
+      </div>
+    </div>
+    <div class="type-block gold">
+      <div class="type-meta">
+        <span class="type-name sans">Inter</span>
+        <span class="type-meta-label">Texte · Sans-serif · Google Fonts</span>
+      </div>
+      <div class="type-specimen-aa sans">Aa</div>
+      <p class="type-pangram sans">Découvrez nos menus et créez l'événement qui vous ressemble.</p>
+      <div class="type-weights">
+        <div class="type-weight sans" style="font-weight:300"><span class="type-weight-num">300 · Light</span>Lorem ipsum dolor</div>
+        <div class="type-weight sans" style="font-weight:400"><span class="type-weight-num">400 · Regular</span>Lorem ipsum dolor</div>
+        <div class="type-weight sans" style="font-weight:500"><span class="type-weight-num">500 · Medium</span>Lorem ipsum dolor</div>
+        <div class="type-weight sans" style="font-weight:600"><span class="type-weight-num">600 · Semi-Bold</span>Lorem ipsum dolor</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">04 / 09</div>
+</section>
+
+<!-- PAGE 5 — LOGO -->
+<section class="page">
+  <div class="page-marker">03 — Logo</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 03</div>
+    <h2 class="section-title">Logo <span class="italic">&amp; déclinaisons</span></h2>
+    <p class="section-lead">Le mot-symbole "Vite & Gourmand" associe la prestance de Playfair Display à l'esperluette italique en or, signature visuelle de la marque.</p>
+    <div class="logo-grid">
+      <div class="logo-card creme"><span class="logo-card-label">Sur fond crème</span><span class="logo-mark">Vite <span class="amp">&</span> Gourmand</span></div>
+      <div class="logo-card white"><span class="logo-card-label">Sur fond blanc</span><span class="logo-mark">Vite <span class="amp">&</span> Gourmand</span></div>
+      <div class="logo-card dark"><span class="logo-card-label">Sur fond brun</span><span class="logo-mark">Vite <span class="amp">&</span> Gourmand</span></div>
+      <div class="logo-card bordeaux"><span class="logo-card-label">Sur fond bordeaux</span><span class="logo-mark">Vite <span class="amp">&</span> Gourmand</span></div>
+    </div>
+    <div class="logo-rules">
+      <div class="rule-card">
+        <div class="rule-title">À faire</div>
+        <ul class="rule-list">
+          <li>Conserver l'esperluette dorée en italique</li>
+          <li>Respecter un espace libre minimal autour du logo</li>
+          <li>Privilégier les fonds unis (crème, brun, bordeaux)</li>
+        </ul>
+      </div>
+      <div class="rule-card dont">
+        <div class="rule-title">À éviter</div>
+        <ul class="rule-list">
+          <li>Déformer ou étirer le logo</li>
+          <li>Modifier les couleurs (notamment l'esperluette)</li>
+          <li>Placer le logo sur une image sans contraste suffisant</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">05 / 09</div>
+</section>
+
+<!-- PAGE 6 — COMPOSANTS -->
+<section class="page">
+  <div class="page-marker">04 — Composants</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 04</div>
+    <h2 class="section-title">Composants <span class="italic">d'interface</span></h2>
+    <p class="section-lead">Les briques visuelles qui composent l'expérience utilisateur sur la plateforme.</p>
+    <div class="ui-grid">
+      <div class="ui-card">
+        <div class="ui-card-label">— Boutons</div>
+        <h4 class="ui-card-title">Actions principales</h4>
+        <div>
+          <button class="btn btn-primary">Réserver</button>
+          <button class="btn btn-secondary">Devis</button>
+          <button class="btn btn-ghost">Détails</button>
+        </div>
+      </div>
+      <div class="ui-card">
+        <div class="ui-card-label">— Formulaires</div>
+        <h4 class="ui-card-title">Champ de saisie</h4>
+        <div class="form-demo">
+          <label>Adresse email</label>
+          <input type="text" value="contact@vite-et-gourmand.fr">
+        </div>
+      </div>
+      <div class="ui-card" style="grid-column: 1 / -1;">
+        <div class="ui-card-label">— Carte menu</div>
+        <h4 class="ui-card-title">Présentation d'une formule</h4>
+        <div class="menu-card-demo">
+          <div class="menu-price-badge">89.00 €</div>
+          <h5 class="menu-card-title">Menu Prestige Mariage</h5>
+          <p class="menu-card-desc">Une expérience culinaire d'exception pour célébrer votre union. Cocktail dînatoire raffiné avec amuse-bouches gastronomiques, plat principal au choix et plateau de fromages affinés.</p>
+        </div>
+      </div>
+      <div class="ui-card" style="grid-column: 1 / -1;">
+        <div class="ui-card-label">— Badges &amp; étiquettes</div>
+        <h4 class="ui-card-title">Statuts et étiquettes</h4>
+        <div class="badges-row">
+          <span class="badge-demo bx">Nouveau</span>
+          <span class="badge-demo or">Recommandé</span>
+          <span class="badge-demo sg">Disponible</span>
+          <span class="badge-demo bx">Promotion</span>
+          <span class="badge-demo or">Best-seller</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">06 / 09</div>
+</section>
+
+<!-- PAGE 7 — CAPTURES PUBLIQUES -->
+<section class="page">
+  <div class="page-marker">05 — Aperçu</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 05</div>
+    <h2 class="section-title">Aperçu de la <span class="italic">plateforme</span></h2>
+    <p class="section-lead captures-intro">Pages publiques accessibles à tous les visiteurs : présentation, menus, contact et formulaires d'authentification.</p>
+    <div class="captures-grid">
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/01-accueil.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Page d'accueil</span><span class="capture-num">01</span></div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/02-menus.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Nos menus</span><span class="capture-num">02</span></div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/03-contact.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Contact</span><span class="capture-num">03</span></div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/04-connexion.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Connexion</span><span class="capture-num">04</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">07 / 09</div>
+</section>
+
+<!-- PAGE 8 — CAPTURES ESPACES -->
+<section class="page">
+  <div class="page-marker">05 — Aperçu (suite)</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 05 · suite</div>
+    <h2 class="section-title">Espaces <span class="italic">authentifiés</span></h2>
+    <p class="section-lead captures-intro">Espaces personnalisés selon le rôle de l'utilisateur : client, employé ou administrateur.</p>
+    <div class="captures-grid">
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/05-inscription.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Inscription</span><span class="capture-num">05</span></div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/06-espace-user.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Espace utilisateur</span><span class="capture-num">06</span></div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/07-espace-admin.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Espace administrateur</span><span class="capture-num">07</span></div>
+      </div>
+      <div class="capture-card">
+        <div class="capture-img" style="background-image: url('../assets/images/screenshots/08-espace-employe.png');"></div>
+        <div class="capture-meta"><span class="capture-label">Espace employé</span><span class="capture-num">08</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Charte graphique</div>
+  <div class="page-number">08 / 09</div>
+</section>
+
+<!-- PAGE 9 — COLOPHON -->
+<section class="page colophon">
+  <div class="colophon-eyebrow">— Colophon · Fin du document</div>
+  <h2 class="colophon-title">Vite <em>&</em><br>Gourmand</h2>
+  <div class="colophon-meta">
+    <div class="meta-row">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">Charte graphique</div>
+      <div class="meta-value small">Version 1.0 · Mai 2026</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Auteur</div>
+      <div class="meta-value">Dylan Quinzin</div>
+      <div class="meta-value small">Étudiant TP DWWM · Studi</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Contexte</div>
+      <div class="meta-value">ECF Vite & Gourmand</div>
+      <div class="meta-value small">Référentiel RNCP 37674</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Stack</div>
+      <div class="meta-value">PHP 8.2 · MySQL</div>
+      <div class="meta-value small">Bootstrap 5 · Chart.js · Google Fonts</div>
+    </div>
+  </div>
+  <div class="colophon-bottom">
+    <span>Composé en <strong>Playfair Display</strong> &amp; <strong>Inter</strong></span>
+    <span>Bordeaux · <strong>2026</strong></span>
+  </div>
+</section>
+
+</body>
+</html>

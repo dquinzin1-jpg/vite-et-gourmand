@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Manuel d'utilisation — Vite & Gourmand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* MANUEL D'UTILISATION — VITE & GOURMAND */
+  :root {
+    --bordeaux: #7A1F2A;
+    --bordeaux-dark: #5A1620;
+    --or: #C9A875;
+    --or-dark: #A88955;
+    --or-light: #E0C99B;
+    --creme: #F4EBDD;
+    --creme-light: #FAF5EC;
+    --brun-très-foncé: #1A1410;
+    --sauge: #9CAF88;
+    --sauge-dark: #5C7048;
+    --texte: #1A1410;
+    --texte-muet: #6B5D52;
+    --texte-clair: #F5EDE0;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: var(--sans);
+    color: var(--texte);
+    background: #ddd;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none !important; margin: 0 !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 8mm auto;
+    background: var(--creme-light);
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  .page-number {
+    position: absolute; bottom: 8mm; right: 16mm;
+    font-family: var(--mono); font-size: 8.5pt;
+    color: var(--texte-muet); letter-spacing: 0.1em; z-index: 10;
+  }
+  .page-marker {
+    position: absolute; top: 14mm; left: 16mm;
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--or-dark); letter-spacing: 0.2em;
+    text-transform: uppercase; z-index: 10;
+  }
+  .page-footer-brand {
+    position: absolute; bottom: 8mm; left: 16mm;
+    font-family: var(--serif); font-style: italic;
+    font-size: 9.5pt; color: var(--texte-muet); z-index: 10;
+  }
+  .page-footer-brand span { color: var(--or-dark); }
+
+  /* COUVERTURE */
+  .cover {
+    background: var(--brun-très-foncé);
+    color: var(--texte-clair);
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+  }
+  .cover-left {
+    background-image: url('../assets/images/menu-mariage.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .cover-left::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(122, 31, 42, 0.45), rgba(26, 20, 16, 0.7));
+  }
+  .cover-stamp {
+    position: absolute;
+    bottom: 22mm; left: 18mm;
+    color: var(--creme);
+    font-family: var(--serif);
+    z-index: 2;
+  }
+  .cover-stamp-label {
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--or-light);
+    margin-bottom: 4mm;
+    display: block;
+  }
+  .cover-stamp-text {
+    font-size: 28pt;
+    font-style: italic;
+    line-height: 1;
+  }
+  .cover-right {
+    padding: 28mm 20mm 18mm 18mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 9pt;
+    color: var(--or);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-weight: 800;
+    font-size: 64pt;
+    line-height: 0.95;
+    color: var(--creme);
+    margin-top: 8mm;
+  }
+  .cover-title em { color: var(--or); font-style: italic; font-weight: 500; }
+  .cover-decoration {
+    width: 60mm;
+    height: 1px;
+    background: linear-gradient(to right, var(--or), transparent);
+    margin: 12mm 0;
+  }
+  .cover-sub {
+    font-family: var(--serif);
+    font-size: 20pt;
+    color: var(--or-light);
+  }
+  .cover-sub .amp { color: var(--or); font-style: italic; }
+  .cover-tagline {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: rgba(245, 237, 224, 0.7);
+    max-width: 90mm;
+    margin-top: 8mm;
+  }
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: rgba(245, 237, 224, 0.5);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .cover-bottom strong { color: var(--or); font-weight: 500; }
+
+  /* SOMMAIRE / INTRO */
+  .toc { padding: 26mm 24mm 22mm 24mm; }
+  .section-eyebrow {
+    font-family: var(--mono); font-size: 8.5pt;
+    color: var(--bordeaux); letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 5mm;
+  }
+  .section-title {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 38pt; line-height: 1;
+    color: var(--brun-très-foncé); margin-bottom: 4mm;
+  }
+  .section-title .italic { font-style: italic; color: var(--bordeaux); font-weight: 500; }
+  .section-lead {
+    font-family: var(--serif); font-style: italic;
+    font-size: 12pt; color: var(--texte-muet);
+    margin-bottom: 10mm; max-width: 140mm; line-height: 1.4;
+  }
+  .toc-list { list-style: none; margin-top: 6mm; }
+  .toc-item {
+    display: grid; grid-template-columns: 14mm 1fr auto;
+    align-items: baseline; padding: 4mm 0;
+    border-bottom: 1px solid rgba(107, 93, 82, 0.15);
+  }
+  .toc-num { font-family: var(--mono); font-size: 10pt; color: var(--or-dark); }
+  .toc-label { font-family: var(--serif); font-size: 15pt; color: var(--brun-très-foncé); }
+  .toc-label small {
+    display: block;
+    font-family: var(--sans);
+    font-size: 9pt;
+    color: var(--texte-muet);
+    margin-top: 1mm;
+    font-style: italic;
+  }
+  .toc-page { font-family: var(--mono); font-size: 9.5pt; color: var(--texte-muet); }
+
+  /* PAGES INTÉRIEURES */
+  .inner {
+    padding: 24mm 18mm 22mm 18mm;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* BANDE DE ROLE */
+  .role-banner {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3mm;
+    z-index: 5;
+  }
+  .role-banner.visiteur { background: var(--bordeaux); }
+  .role-banner.client { background: var(--sauge); }
+  .role-banner.employe { background: var(--or); }
+  .role-banner.admin { background: var(--bordeaux-dark); }
+
+  /* PRÉSENTATION DES RÔLES */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4mm;
+    margin-top: 4mm;
+  }
+  .role-card {
+    background: white;
+    border: 1px solid rgba(107, 93, 82, 0.12);
+    padding: 6mm 8mm;
+    display: grid;
+    grid-template-columns: 26mm 1fr;
+    gap: 7mm;
+    align-items: center;
+    position: relative;
+    border-left: 4px solid var(--bordeaux);
+  }
+  .role-card.client { border-left-color: var(--sauge); }
+  .role-card.employe { border-left-color: var(--or); }
+  .role-card.admin { border-left-color: var(--bordeaux-dark); }
+  .role-icon {
+    width: 26mm;
+    height: 26mm;
+    background: var(--creme);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28pt;
+    border-radius: 2mm;
+  }
+  .role-card.client .role-icon { background: rgba(156, 175, 136, 0.15); }
+  .role-card.employe .role-icon { background: rgba(201, 168, 117, 0.15); }
+  .role-card.admin .role-icon { background: rgba(122, 31, 42, 0.08); }
+  .role-name {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 15pt;
+    color: var(--brun-très-foncé);
+    margin-bottom: 1.5mm;
+  }
+  .role-tag {
+    font-family: var(--mono);
+    font-size: 7pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    margin-bottom: 2.5mm;
+  }
+  .role-card.client .role-tag { color: var(--sauge-dark); }
+  .role-card.employe .role-tag { color: var(--or-dark); }
+  .role-card.admin .role-tag { color: var(--bordeaux-dark); }
+  .role-desc {
+    font-family: var(--sans);
+    font-size: 9pt;
+    line-height: 1.5;
+    color: var(--texte);
+  }
+
+  /* ÉTAPES */
+  .steps {
+    margin-top: 6mm;
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 14mm 1fr;
+    gap: 5mm;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: var(--serif);
+    font-size: 32pt;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--or);
+    line-height: 0.9;
+    text-align: right;
+    padding-right: 2mm;
+    border-right: 1px solid rgba(201, 168, 117, 0.4);
+  }
+  .step-content {
+    padding-top: 2mm;
+  }
+  .step-title {
+    font-family: var(--serif);
+    font-size: 14pt;
+    font-weight: 600;
+    color: var(--brun-très-foncé);
+    margin-bottom: 2mm;
+  }
+  .step-text {
+    font-family: var(--sans);
+    font-size: 10pt;
+    line-height: 1.6;
+    color: var(--texte);
+  }
+  .step-text strong { color: var(--bordeaux); font-weight: 600; }
+  .step-text code {
+    font-family: var(--mono);
+    font-size: 9pt;
+    background: var(--creme);
+    padding: 0.5mm 1.5mm;
+    border-radius: 1mm;
+    color: var(--bordeaux);
+  }
+
+  /* CALLOUT (info, tip, attention) */
+  .callout {
+    margin-top: 6mm;
+    padding: 5mm 7mm;
+    background: white;
+    border-left: 4px solid var(--bordeaux);
+    font-family: var(--sans);
+    font-size: 9.5pt;
+    line-height: 1.55;
+    color: var(--texte);
+  }
+  .callout.tip { border-left-color: var(--or); background: rgba(201, 168, 117, 0.08); }
+  .callout.success { border-left-color: var(--sauge); background: rgba(156, 175, 136, 0.08); }
+  .callout-title {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    margin-bottom: 2mm;
+    font-weight: 600;
+  }
+  .callout.tip .callout-title { color: var(--or-dark); }
+  .callout.success .callout-title { color: var(--sauge-dark); }
+
+  /* CAPTURE INTÉGRÉE */
+  .screenshot-block {
+    margin-top: 6mm;
+    background: white;
+    border: 1px solid rgba(107, 93, 82, 0.15);
+    padding: 4mm;
+  }
+  .screenshot-img {
+    width: 100%;
+    height: 90mm;
+    background-color: var(--creme);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(107, 93, 82, 0.1);
+  }
+  .screenshot-img.short { height: 70mm; }
+  .screenshot-caption {
+    margin-top: 3mm;
+    padding-top: 2mm;
+    border-top: 1px dashed rgba(107, 93, 82, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .screenshot-caption-label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 10pt;
+    color: var(--texte-muet);
+  }
+  .screenshot-caption-num {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--or-dark);
+    letter-spacing: 0.15em;
+  }
+
+  /* FEATURES LIST (pour pages comme espace admin avec liste de fonctionnalités) */
+  .features-list {
+    margin-top: 5mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm 6mm;
+  }
+  .feature-item {
+    padding: 4mm 5mm;
+    background: rgba(122, 31, 42, 0.04);
+    border-left: 3px solid var(--bordeaux);
+    border-radius: 0 1mm 1mm 0;
+  }
+  .feature-item.client { background: rgba(156, 175, 136, 0.06); border-left-color: var(--sauge); }
+  .feature-item.employe { background: rgba(201, 168, 117, 0.08); border-left-color: var(--or); }
+  .feature-item.admin { background: rgba(122, 31, 42, 0.06); border-left-color: var(--bordeaux-dark); }
+  .feature-name {
+    font-family: var(--serif);
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--brun-très-foncé);
+    margin-bottom: 1.5mm;
+  }
+  .feature-desc {
+    font-family: var(--sans);
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: var(--texte-muet);
+  }
+
+  /* COLOPHON */
+  .colophon {
+    background: var(--brun-très-foncé);
+    color: var(--texte-clair);
+    justify-content: center;
+    padding: 30mm 24mm;
+  }
+  .colophon-eyebrow {
+    font-family: var(--mono); font-size: 9pt;
+    color: var(--or); letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 8mm;
+  }
+  .colophon-title {
+    font-family: var(--serif); font-size: 42pt; line-height: 1;
+    margin-bottom: 12mm; color: var(--creme); font-weight: 700;
+  }
+  .colophon-title em { color: var(--or); font-weight: 400; font-style: italic; }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5mm;
+    margin-top: 4mm;
+  }
+  .faq-item {
+    border-top: 1px solid rgba(245, 237, 224, 0.15);
+    padding-top: 4mm;
+  }
+  .faq-q {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13pt;
+    color: var(--or);
+    margin-bottom: 2mm;
+  }
+  .faq-a {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 10pt;
+    line-height: 1.6;
+    color: rgba(245, 237, 224, 0.8);
+  }
+  .faq-a strong { color: var(--creme); font-weight: 500; }
+  .colophon-bottom {
+    margin-top: auto;
+    padding-top: 10mm;
+    border-top: 1px solid rgba(245, 237, 224, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: rgba(245, 237, 224, 0.5);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .colophon-bottom strong { color: var(--or); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 — COUVERTURE -->
+<section class="page cover">
+  <div class="cover-left">
+    <div class="cover-stamp">
+      <span class="cover-stamp-label">Édition</span>
+      <div class="cover-stamp-text">v1.0</div>
+    </div>
+  </div>
+  <div class="cover-right">
+    <div>
+      <div class="cover-eyebrow">— Guide utilisateur · 2026</div>
+      <h1 class="cover-title">Manuel<br><em>d'utilisation</em></h1>
+      <div class="cover-decoration"></div>
+      <div class="cover-sub">Vite <span class="amp">&</span> Gourmand</div>
+      <p class="cover-tagline">
+        Guide pas-à-pas pour les utilisateurs de la plateforme de réservation et de gestion d'événements culinaires. Présente les fonctionnalités accessibles aux visiteurs, aux clients enregistrés, aux employés et aux administrateurs.
+      </p>
+    </div>
+    <div class="cover-bottom">
+      <span>Auteur · <strong>Dylan Quinzin</strong></span>
+      <span>Volume <strong>02</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 — SOMMAIRE -->
+<section class="page">
+  <div class="page-marker">Sommaire</div>
+  <div class="toc">
+    <div class="section-eyebrow">— Index général</div>
+    <h2 class="section-title">Au <span class="italic">sommaire</span></h2>
+    <p class="section-lead">
+      Ce manuel guide chaque type d'utilisateur dans la prise en main de la plateforme Vite & Gourmand, depuis la première visite jusqu'à l'administration complète du site.
+    </p>
+    <ol class="toc-list">
+      <li class="toc-item">
+        <span class="toc-num">01</span>
+        <span class="toc-label">Les rôles utilisateurs<small>Visiteur, Client, Employé, Administrateur</small></span>
+        <span class="toc-page">p. 03</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">02</span>
+        <span class="toc-label">Naviguer sur le site<small>Visiteur — Accueil, menus, contact</small></span>
+        <span class="toc-page">p. 04</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">03</span>
+        <span class="toc-label">Créer un compte &amp; se connecter<small>Visiteur — Inscription et authentification</small></span>
+        <span class="toc-page">p. 05</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">04</span>
+        <span class="toc-label">L'espace client<small>Client — Profil et commandes</small></span>
+        <span class="toc-page">p. 06</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">05</span>
+        <span class="toc-label">L'espace employé<small>Employé — Commandes et modération</small></span>
+        <span class="toc-page">p. 07</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">06</span>
+        <span class="toc-label">L'espace administrateur<small>Administrateur — Équipe et statistiques</small></span>
+        <span class="toc-page">p. 08</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-num">07</span>
+        <span class="toc-label">Support &amp; FAQ<small>Questions fréquentes et contact</small></span>
+        <span class="toc-page">p. 09</span>
+      </li>
+    </ol>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">02 / 09</div>
+</section>
+
+<!-- PAGE 3 — LES RÔLES -->
+<section class="page">
+  <div class="page-marker">01 — Les rôles</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 01</div>
+    <h2 class="section-title">Les <span class="italic">rôles</span></h2>
+    <p class="section-lead">
+      La plateforme s'adapte à quatre profils d'utilisateurs, chacun disposant de droits et d'un espace dédié.
+    </p>
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-icon">👁️</div>
+        <div>
+          <div class="role-tag">— Accès libre</div>
+          <h3 class="role-name">Le visiteur</h3>
+          <p class="role-desc">Toute personne arrivant sur le site. Peut consulter l'accueil, les menus et la page contact. Pour passer une commande, il doit créer un compte.</p>
+        </div>
+      </div>
+      <div class="role-card client">
+        <div class="role-icon">👤</div>
+        <div>
+          <div class="role-tag">— Compte personnel</div>
+          <h3 class="role-name">Le client</h3>
+          <p class="role-desc">Utilisateur inscrit et connecté. Accède à son espace personnel pour gérer ses informations (nom, adresse, téléphone) et consulter l'historique de ses commandes.</p>
+        </div>
+      </div>
+      <div class="role-card employe">
+        <div class="role-icon">👨‍🍳</div>
+        <div>
+          <div class="role-tag">— Personnel interne</div>
+          <h3 class="role-name">L'employé</h3>
+          <p class="role-desc">Compte créé par l'administrateur. Accède à l'espace employé pour gérer les commandes (filtrage par statut, recherche client) et modérer les avis publiés.</p>
+        </div>
+      </div>
+      <div class="role-card admin">
+        <div class="role-icon">⚙️</div>
+        <div>
+          <div class="role-tag">— Contrôle total</div>
+          <h3 class="role-name">L'administrateur</h3>
+          <p class="role-desc">Niveau de droits le plus élevé. Crée et désactive les comptes employés, supervise l'activité de la plateforme et consulte les statistiques par menu.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">03 / 09</div>
+</section>
+
+<!-- PAGE 4 — NAVIGUER -->
+<section class="page">
+  <div class="role-banner visiteur"></div>
+  <div class="page-marker">02 — Visiteur</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 02 · Visiteur</div>
+    <h2 class="section-title">Naviguer sur le <span class="italic">site</span></h2>
+    <p class="section-lead">
+      Premier contact avec la plateforme : trois pages publiques accessibles sans inscription.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3 class="step-title">Page d'accueil</h3>
+          <p class="step-text">La page d'accueil présente <strong>Vite & Gourmand</strong> : histoire de la maison, savoir-faire, prestations proposées et avis clients. Un bouton <strong>"Découvrir nos menus"</strong> redirige vers le catalogue.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3 class="step-title">Consulter les menus</h3>
+          <p class="step-text">La page <strong>"Nos menus"</strong> liste les formules disponibles avec photo, prix et description. Chaque carte présente un menu : Prestige Mariage, Affaires Premium, Festif Anniversaire, Découverte.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3 class="step-title">Contacter l'équipe</h3>
+          <p class="step-text">La page <strong>"Contact"</strong> affiche les coordonnées du traiteur (adresse, téléphone, email, horaires) et un formulaire pour envoyer un message direct à l'équipe.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="callout-title">— Astuce</div>
+      Le menu de navigation est <strong>toujours visible en haut de page</strong>. Il permet de circuler librement entre les sections du site sans repasser par l'accueil.
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">04 / 09</div>
+</section>
+
+<!-- PAGE 5 — INSCRIPTION & CONNEXION -->
+<section class="page">
+  <div class="role-banner visiteur"></div>
+  <div class="page-marker">03 — Visiteur</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 03 · Visiteur</div>
+    <h2 class="section-title">Créer un <span class="italic">compte</span></h2>
+    <p class="section-lead">
+      Pour passer commande et accéder à un espace personnel, la création d'un compte est nécessaire.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3 class="step-title">Cliquer sur "S'inscrire"</h3>
+          <p class="step-text">Depuis n'importe quelle page du site, cliquer sur le lien <strong>"S'inscrire"</strong> dans la barre de navigation supérieure.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3 class="step-title">Remplir le formulaire</h3>
+          <p class="step-text">Renseigner les champs : <strong>nom, prénom, email, téléphone, adresse postale</strong> et choisir un <strong>mot de passe sécurisé</strong> (10 caractères minimum, avec majuscule, minuscule, chiffre et caractère spécial).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3 class="step-title">Valider et se connecter</h3>
+          <p class="step-text">Cliquer sur <strong>"Créer mon compte"</strong>. Le compte est créé immédiatement. Pour les visites suivantes, utiliser la page <strong>"Connexion"</strong> avec l'email et le mot de passe choisis.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-title">— Sécurité</div>
+      Le mot de passe est <strong>chiffré avec bcrypt</strong> avant d'être enregistré en base. Il ne peut être lu par personne, pas même par l'administrateur du site.
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">05 / 09</div>
+</section>
+
+<!-- PAGE 6 — ESPACE CLIENT -->
+<section class="page">
+  <div class="role-banner client"></div>
+  <div class="page-marker">04 — Client</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 04 · Client</div>
+    <h2 class="section-title">L'espace <span class="italic">client</span></h2>
+    <p class="section-lead">
+      Une fois connecté, l'utilisateur accède à son espace personnel pour gérer ses informations et suivre ses commandes.
+    </p>
+    <div class="features-list">
+      <div class="feature-item client">
+        <div class="feature-name">Mes informations</div>
+        <p class="feature-desc">Modifier nom, prénom, téléphone et adresse postale à tout moment.</p>
+      </div>
+      <div class="feature-item client">
+        <div class="feature-name">Mes commandes</div>
+        <p class="feature-desc">Consulter l'historique des commandes passées avec leur statut.</p>
+      </div>
+      <div class="feature-item client">
+        <div class="feature-name">Mettre à jour</div>
+        <p class="feature-desc">Sauvegarder les changements en un clic via le bouton dédié.</p>
+      </div>
+      <div class="feature-item client">
+        <div class="feature-name">Déconnexion</div>
+        <p class="feature-desc">Quitter l'espace personnel en sécurité depuis le menu supérieur.</p>
+      </div>
+    </div>
+    <div class="screenshot-block">
+      <div class="screenshot-img" style="background-image: url('../assets/images/screenshots/06-espace-user.png');"></div>
+      <div class="screenshot-caption">
+        <span class="screenshot-caption-label">Aperçu de l'espace client</span>
+        <span class="screenshot-caption-num">06</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">06 / 09</div>
+</section>
+
+<!-- PAGE 7 — ESPACE EMPLOYÉ -->
+<section class="page">
+  <div class="role-banner employe"></div>
+  <div class="page-marker">05 — Employé</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 05 · Employé</div>
+    <h2 class="section-title">L'espace <span class="italic">employé</span></h2>
+    <p class="section-lead">
+      Espace réservé au personnel interne pour superviser les commandes en cours et modérer les avis publiés par les clients.
+    </p>
+    <div class="features-list">
+      <div class="feature-item employe">
+        <div class="feature-name">Filtrer par statut</div>
+        <p class="feature-desc">Trier les commandes selon leur état (en attente, confirmées, livrées).</p>
+      </div>
+      <div class="feature-item employe">
+        <div class="feature-name">Rechercher un client</div>
+        <p class="feature-desc">Retrouver rapidement une commande par nom, prénom ou email du client.</p>
+      </div>
+      <div class="feature-item employe">
+        <div class="feature-name">Liste des commandes</div>
+        <p class="feature-desc">Vue d'ensemble de toutes les commandes filtrées avec leurs détails.</p>
+      </div>
+      <div class="feature-item employe">
+        <div class="feature-name">Modération des avis</div>
+        <p class="feature-desc">Valider ou refuser les avis clients en attente avant publication.</p>
+      </div>
+    </div>
+    <div class="screenshot-block">
+      <div class="screenshot-img" style="background-image: url('../assets/images/screenshots/08-espace-employe.png');"></div>
+      <div class="screenshot-caption">
+        <span class="screenshot-caption-label">Aperçu de l'espace employé</span>
+        <span class="screenshot-caption-num">08</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">07 / 09</div>
+</section>
+
+<!-- PAGE 8 — ESPACE ADMIN -->
+<section class="page">
+  <div class="role-banner admin"></div>
+  <div class="page-marker">06 — Administrateur</div>
+  <div class="inner">
+    <div class="section-eyebrow">— Chapitre 06 · Administrateur</div>
+    <h2 class="section-title">L'espace <span class="italic">administrateur</span></h2>
+    <p class="section-lead">
+      Espace de pilotage de la plateforme : gestion de l'équipe, suivi des performances et création des comptes employés.
+    </p>
+    <div class="features-list">
+      <div class="feature-item admin">
+        <div class="feature-name">Créer un employé</div>
+        <p class="feature-desc">Renseigner nom, prénom, email et mot de passe pour créer un compte employé.</p>
+      </div>
+      <div class="feature-item admin">
+        <div class="feature-name">Liste des employés</div>
+        <p class="feature-desc">Tableau récapitulatif avec statut actif/inactif de chaque employé.</p>
+      </div>
+      <div class="feature-item admin">
+        <div class="feature-name">Désactiver un compte</div>
+        <p class="feature-desc">Suspendre l'accès d'un employé sans supprimer son historique de gestion.</p>
+      </div>
+      <div class="feature-item admin">
+        <div class="feature-name">Statistiques par menu</div>
+        <p class="feature-desc">Graphique du nombre de commandes et du chiffre d'affaires par menu.</p>
+      </div>
+    </div>
+    <div class="screenshot-block">
+      <div class="screenshot-img short" style="background-image: url('../assets/images/screenshots/07-espace-admin.png');"></div>
+      <div class="screenshot-caption">
+        <span class="screenshot-caption-label">Aperçu de l'espace administrateur</span>
+        <span class="screenshot-caption-num">07</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer-brand">Vite <span>&</span> Gourmand · Manuel d'utilisation</div>
+  <div class="page-number">08 / 09</div>
+</section>
+
+<!-- PAGE 9 — FAQ / COLOPHON -->
+<section class="page colophon">
+  <div class="colophon-eyebrow">— Chapitre 07 · Support &amp; FAQ</div>
+  <h2 class="colophon-title">Une <em>question ?</em></h2>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <div class="faq-q">— J'ai oublié mon mot de passe, que faire ?</div>
+      <p class="faq-a">Contacter l'équipe via le <strong>formulaire de contact</strong> en précisant l'adresse email du compte. Un mot de passe temporaire sera envoyé pour récupérer l'accès.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">— Comment devenir employé ?</div>
+      <p class="faq-a">Les comptes employés sont créés <strong>uniquement par l'administrateur</strong>. Une candidature doit être adressée au traiteur via le formulaire de contact.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">— Mes données sont-elles protégées ?</div>
+      <p class="faq-a">Oui. Les mots de passe sont <strong>chiffrés (bcrypt)</strong>, les sessions sont sécurisées contre la fixation, et toutes les requêtes utilisent des <strong>requêtes préparées</strong> pour empêcher les injections SQL.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">— Le site fonctionne-t-il sur mobile ?</div>
+      <p class="faq-a">Oui. L'interface est <strong>responsive</strong> grâce à Bootstrap 5, et s'adapte aux écrans de smartphone, tablette et ordinateur.</p>
+    </div>
+  </div>
+  <div class="colophon-bottom">
+    <span>Document · <strong>Manuel d'utilisation</strong> · v1.0</span>
+    <span>Bordeaux · <strong>2026</strong></span>
+  </div>
+</section>
+
+</body>
+</html>
