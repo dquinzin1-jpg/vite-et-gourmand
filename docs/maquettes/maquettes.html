@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vite &amp; Gourmand — Maquettes ECF</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --noir: #1F1813;
+    --noir-secondaire: #2A201A;
+    --bordeaux: #7A1F2A;
+    --or: #C9A875;
+    --creme: #F5EBDE;
+    --creme-fonce: #E5DDD0;
+    --sauge: #8FA876;
+    --corail: #B85C5C;
+    --violet: #6B4FA8;
+    --vert-succes: #2A5A3D;
+    --vert-succes-bg: #D4E8DC;
+    --texte: #555;
+    --texte-clair: #888;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #ECE4D6;
+    color: #333;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+
+  .page-header {
+    max-width: 1100px;
+    margin: 0 auto 50px;
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #C9A875;
+  }
+
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--bordeaux);
+    font-size: 38px;
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+
+  .page-header .tagline {
+    color: var(--or);
+    font-style: italic;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .page-header .meta {
+    font-size: 13px;
+    color: var(--texte);
+  }
+
+  .maquette-section {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+  }
+
+  .maquette-label {
+    font-family: 'Playfair Display', serif;
+    color: var(--bordeaux);
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .maquette-subtitle {
+    font-size: 13px;
+    color: var(--texte-clair);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .mockup {
+    background: var(--creme);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #C9A87555;
+    box-shadow: 0 12px 35px rgba(31, 24, 19, 0.12);
+  }
+
+  /* === HEADER COMMUN === */
+  .mockup-header {
+    background: var(--noir);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mockup-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--creme);
+    font-size: 20px;
+    font-style: italic;
+  }
+  .mockup-logo .amp {
+    color: var(--or);
+    font-style: italic;
+  }
+  .mockup-nav {
+    display: flex;
+    gap: 24px;
+    font-size: 13px;
+    color: var(--creme);
+  }
+  .mockup-nav .active { color: var(--or); }
+  .mockup-nav .logout { color: var(--corail); }
+
+  /* === FOOTER COMMUN === */
+  .mockup-footer {
+    background: var(--noir);
+    padding: 24px 32px 18px;
+    color: var(--creme);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid rgba(201,168,117,0.15);
+  }
+  .footer-col h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--or);
+    margin-bottom: 8px;
+  }
+  .footer-col p {
+    font-size: 11px;
+    color: rgba(245, 235, 222, 0.7);
+    line-height: 1.6;
+  }
+  .footer-legal {
+    background: var(--noir);
+    padding: 12px 32px 16px;
+    text-align: center;
+    color: rgba(245, 235, 222, 0.5);
+    font-size: 10px;
+    border-top: 1px solid rgba(201, 168, 117, 0.1);
+  }
+
+  /* === MAQUETTE 1 : ACCUEIL === */
+  .hero {
+    background: linear-gradient(rgba(31, 24, 19, 0.6), rgba(31, 24, 19, 0.6)), #6B5544;
+    padding: 90px 32px;
+    text-align: center;
+    color: var(--creme);
+  }
+  .hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  .hero h2 .accent {
+    color: var(--or);
+    font-style: italic;
+  }
+  .hero p.tagline {
+    font-size: 14px;
+    margin: 18px auto 26px;
+    max-width: 480px;
+    opacity: 0.9;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--or);
+    color: var(--noir);
+    padding: 13px 28px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  .engagement-section {
+    padding: 40px 32px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--noir);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .section-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--or);
+    margin: 0 auto 10px;
+  }
+  .section-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--texte);
+    margin-bottom: 24px;
+  }
+  .engagement-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .engagement-card {
+    background: white;
+    border: 1px solid var(--creme-fonce);
+    border-radius: 8px;
+    padding: 22px 16px;
+    text-align: center;
+  }
+  .engagement-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--creme);
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--or);
+    font-size: 18px;
+  }
+  .engagement-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--bordeaux);
+    margin-bottom: 6px;
+  }
+  .engagement-card p {
+    font-size: 11px;
+    color: var(--texte-clair);
+    line-height: 1.5;
+  }
+
+  .savoirfaire-section {
+    background: var(--creme);
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .savoirfaire-photo {
+    background: #6B5544;
+    height: 200px;
+    border-radius: 8px;
+  }
+  .savoirfaire-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--bordeaux);
+    margin-bottom: 12px;
+  }
+  .savoirfaire-quote {
+    font-size: 12px;
+    color: var(--texte);
+    line-height: 1.6;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+  .savoirfaire-text {
+    font-size: 11px;
+    color: var(--texte);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .kpi-row {
+    display: flex;
+    gap: 24px;
+    padding-top: 14px;
+    border-top: 1px solid var(--creme-fonce);
+  }
+  .kpi-item .kpi-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--bordeaux);
+  }
+  .kpi-item .kpi-label {
+    font-size: 8px;
+    color: var(--texte-clair);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .prestations-section {
+    padding: 40px 32px;
+  }
+  .prestations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .prestation-card {
+    height: 160px;
+    border-radius: 8px;
+    position: relative;
+    padding: 14px;
+    overflow: hidden;
+  }
+  .prestation-card.ceremonies { background: #6B5544; }
+  .prestation-card.pro { background: #5A4030; }
+  .prestation-card.celebrations { background: var(--bordeaux); }
+  .prestation-card .tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--or);
+    color: var(--noir);
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  .prestation-card h3 {
+    position: absolute;
+    bottom: 28px;
+    left: 14px;
+    right: 14px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: white;
+  }
+  .prestation-card p {
+    position: absolute;
+    bottom: 10px;
+    left: 14px;
+    right: 14px;
+    font-size: 9px;
+    color: white;
+    opacity: 0.85;
+    line-height: 1.4;
+  }
+
+  .testimonials-section {
+    background: var(--noir);
+    padding: 40px 32px;
+    color: var(--creme);
+    text-align: center;
+  }
+  .testimonials-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 6px;
+  }
+  .testimonials-section .subtitle {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    text-align: left;
+  }
+  .testimonial-card {
+    border: 1px solid rgba(201, 168, 117, 0.3);
+    padding: 14px;
+    border-radius: 4px;
+  }
+  .testimonial-stars {
+    color: var(--or);
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  .testimonial-quote {
+    font-size: 10px;
+    font-style: italic;
+    opacity: 0.85;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .testimonial-author {
+    font-size: 9px;
+    color: var(--or);
+  }
+
+  /* === MAQUETTE 2 : ESPACE CLIENT === */
+  .espace-greeting {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .greeting-avatar {
+    width: 38px;
+    height: 38px;
+    background: var(--violet);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+  }
+  .espace-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--bordeaux);
+  }
+  .espace-title .accent {
+    color: var(--or);
+  }
+  .espace-subtitle {
+    font-size: 13px;
+    color: var(--texte-clair);
+    margin: 4px 0 22px;
+    padding-left: 52px;
+  }
+
+  .espace-main {
+    padding: 30px 32px;
+  }
+
+  .espace-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 16px;
+  }
+
+  .card-block {
+    background: white;
+    border: 1px solid var(--creme-fonce);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--bordeaux);
+    margin-bottom: 14px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    color: var(--texte);
+    margin-bottom: 4px;
+  }
+  .form-input {
+    border: 1px solid var(--creme-fonce);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 12px;
+    background: white;
+    color: var(--noir);
+  }
+  .btn-or {
+    background: var(--or);
+    color: var(--noir);
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 6px;
+  }
+  .btn-bordeaux {
+    background: var(--bordeaux);
+    color: var(--creme);
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: inline-block;
+  }
+  .section-header-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .section-header-mini h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--bordeaux);
+  }
+  .empty-state {
+    background: white;
+    border: 1px solid var(--creme-fonce);
+    border-radius: 10px;
+    padding: 32px;
+    text-align: center;
+  }
+  .empty-state p {
+    font-size: 12px;
+    color: var(--texte);
+    margin-bottom: 14px;
+  }
+
+  /* === MAQUETTE 3 : ESPACE ADMIN === */
+  .alert-success {
+    background: var(--vert-succes-bg);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--vert-succes);
+    margin-bottom: 18px;
+  }
+  .admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .table-employees {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  .table-employees th {
+    text-align: left;
+    color: var(--bordeaux);
+    font-weight: 500;
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--or);
+    font-size: 11px;
+  }
+  .table-employees td {
+    padding: 10px 4px;
+    color: var(--noir);
+    font-size: 11px;
+  }
+  .badge-actif {
+    background: var(--vert-succes);
+    color: white;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .badge-action {
+    background: var(--corail);
+    color: white;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .chart-block {
+    background: white;
+    border: 1px solid var(--creme-fonce);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .chart-bars {
+    height: 140px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    border-left: 1px solid var(--creme-fonce);
+    border-bottom: 1px solid var(--creme-fonce);
+    padding: 6px 6px 0;
+    margin: 10px 0;
+    position: relative;
+  }
+  .chart-y {
+    position: absolute;
+    left: 4px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--texte-clair);
+  }
+  .chart-bars > .bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+  }
+  .bar.b-bx { background: var(--bordeaux); }
+  .bar.b-or { background: var(--or); }
+  .bar.b-sg { background: var(--sauge); }
+  .bar.b-co { background: var(--corail); }
+  .chart-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    padding: 8px 0 0;
+    border-top: 1px solid var(--or);
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--bordeaux);
+    font-weight: 500;
+  }
+
+  /* === MAQUETTE 4 : ESPACE EMPLOYÉ === */
+  .filters-bar {
+    background: white;
+    border: 1px solid var(--creme-fonce);
+    border-radius: 10px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr auto auto;
+    gap: 14px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+  .filters-bar label {
+    display: block;
+    font-size: 11px;
+    color: var(--noir);
+    margin-bottom: 4px;
+  }
+  .filter-select, .filter-search {
+    border: 1px solid var(--creme-fonce);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 12px;
+    background: white;
+    color: var(--texte-clair);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .filter-search {
+    color: var(--texte-clair);
+  }
+  .btn-or-sm {
+    background: var(--or);
+    color: var(--noir);
+    padding: 9px 22px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .btn-outline-sm {
+    border: 1px solid var(--or);
+    color: var(--noir);
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 12px;
+    background: white;
+  }
+
+  .functional-zones {
+    background: white;
+    border-left: 3px solid var(--or);
+    padding: 14px 18px;
+    margin-top: 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--texte);
+  }
+  .functional-zones strong {
+    color: var(--bordeaux);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .footer-credits {
+    max-width: 1100px;
+    margin: 60px auto 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--texte-clair);
+    border-top: 1px solid var(--creme-fonce);
+    padding-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Vite <span style="color: var(--or);">&amp;</span> Gourmand</h1>
+  <p class="tagline">Maquettes ECF — Conception fonctionnelle</p>
+  <p class="meta">Dylan Quinzin · TP DWWM Studi · Mai 2026</p>
+</div>
+
+<!-- =================== MAQUETTE 1 : ACCUEIL =================== -->
+<section class="maquette-section">
+  <p class="maquette-label">Maquette 1 — Page d'accueil</p>
+  <p class="maquette-subtitle">Vitrine de présentation du traiteur et points clés de l'offre</p>
+
+  <div class="mockup">
+    <div class="mockup-header">
+      <div class="mockup-logo">Vite <span class="amp">&amp;</span> Gourmand</div>
+      <div class="mockup-nav">
+        <span>Accueil</span><span>Nos menus</span><span>Contact</span><span>Connexion</span><span>S'inscrire</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h2>Bienvenue chez <span class="accent">Vite &amp; Gourmand</span></h2>
+      <p class="tagline">Depuis 25 ans à Bordeaux, Julie et José vous proposent des prestations culinaires sur mesure pour sublimer tous vos événements.</p>
+      <span class="hero-cta">DÉCOUVRIR NOS MENUS</span>
+    </div>
+
+    <div class="engagement-section">
+      <h2 class="section-title">Notre engagement</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Une équipe passionnée pour faire de votre événement un moment d'exception</p>
+
+      <div class="engagement-grid">
+        <div class="engagement-card">
+          <div class="engagement-icon">★</div>
+          <h3>25 ans d'expérience</h3>
+          <p>Une expertise reconnue dans toute la région bordelaise, fruit d'années de passion.</p>
+        </div>
+        <div class="engagement-card">
+          <div class="engagement-icon">📋</div>
+          <h3>Menus personnalisés</h3>
+          <p>Des menus adaptés à tous les goûts et toutes les occasions, élaborés avec des produits frais.</p>
+        </div>
+        <div class="engagement-card">
+          <div class="engagement-icon">🚚</div>
+          <h3>Livraison à domicile</h3>
+          <p>Nous nous déplaçons chez vous partout en Gironde, prestation clé en main.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="savoirfaire-section">
+      <div class="savoirfaire-photo"></div>
+      <div class="savoirfaire-content">
+        <h3>Notre savoir-faire</h3>
+        <p class="savoirfaire-quote">"La gastronomie est un art qui se transmet et se partage. Chaque plat est une histoire que nous écrivons avec passion."</p>
+        <p class="savoirfaire-text">Julie et José ont fondé Vite &amp; Gourmand il y a 25 ans avec une vision claire : démocratiser la haute gastronomie en l'apportant directement chez vous.</p>
+        <div class="kpi-row">
+          <div class="kpi-item"><p class="kpi-num">25</p><p class="kpi-label">Années d'expérience</p></div>
+          <div class="kpi-item"><p class="kpi-num">500+</p><p class="kpi-label">Événements par an</p></div>
+          <div class="kpi-item"><p class="kpi-num">100%</p><p class="kpi-label">Satisfaction client</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prestations-section">
+      <h2 class="section-title">Nos prestations</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Pour un mariage, un séminaire d'entreprise ou un anniversaire</p>
+
+      <div class="prestations-grid">
+        <div class="prestation-card ceremonies">
+          <span class="tag">CÉRÉMONIES</span>
+          <h3>Mariages</h3>
+          <p>Cocktails, buffets et menus gastronomiques pour célébrer votre union.</p>
+        </div>
+        <div class="prestation-card pro">
+          <span class="tag">PROFESSIONNEL</span>
+          <h3>Entreprises</h3>
+          <p>Séminaires, cocktails d'affaires, repas d'équipe : prestations adaptées au monde professionnel.</p>
+        </div>
+        <div class="prestation-card celebrations">
+          <span class="tag">CÉLÉBRATIONS</span>
+          <h3>Anniversaires</h3>
+          <p>Gâteaux personnalisés, sweet tables et buffets festifs pour marquer vos moments.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonials-section">
+      <h2>L'avis de nos clients</h2>
+      <p class="subtitle">Ils nous ont fait confiance pour leurs événements</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-stars">★★★★★</p>
+          <p class="testimonial-quote">"Une équipe à l'écoute, des plats raffinés et une présentation impeccable. Notre mariage a été sublimé !"</p>
+          <p class="testimonial-author">— SOPHIE &amp; MARC</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-stars">★★★★★</p>
+          <p class="testimonial-quote">"Service impeccable pour notre séminaire d'entreprise. Tous nos collaborateurs ont été conquis par les saveurs."</p>
+          <p class="testimonial-author">— LAURENT D., DRH</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-stars">★★★★★</p>
+          <p class="testimonial-quote">"Pour les 60 ans de mon père, c'était parfait. Les invités en parlent encore plusieurs mois après !"</p>
+          <p class="testimonial-author">— MARIE L.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mockup-footer">
+      <div class="footer-col">
+        <h4>Vite &amp; Gourmand</h4>
+        <p>Traiteur d'exception à Bordeaux depuis 25 ans. Nous sublimons vos événements avec une cuisine raffinée et un service sur mesure.</p>
+      </div>
+      <div class="footer-col">
+        <h4>🕐 Nos horaires</h4>
+        <p>Lundi-Vendredi : 09:00 - 18:00<br>Samedi : 10:00 - 16:00<br>Dimanche : Fermé</p>
+      </div>
+      <div class="footer-col">
+        <h4>📍 Nous contacter</h4>
+        <p>Bordeaux, Gironde<br>05 56 XX XX XX<br>contact@vite-et-gourmand.fr</p>
+      </div>
+    </div>
+    <div class="footer-legal">© 2026 Vite &amp; Gourmand — Tous droits réservés · Mentions légales · CGV</div>
+  </div>
+
+  <div class="functional-zones">
+    <strong>Zones fonctionnelles</strong>
+    Header noir avec navigation principale (Accueil, Nos menus, Contact, Connexion, S'inscrire) · Hero immersif avec photographie en arrière-plan et CTA principal · Section "Notre engagement" avec 3 piliers de marque · Bloc "Notre savoir-faire" avec photo, citation et 3 KPI · Grille "Nos prestations" (Mariages, Entreprises, Anniversaires) · Section témoignages clients · Footer noir 3 colonnes (marque, horaires, contact)
+  </div>
+</section>
+
+<!-- =================== MAQUETTE 2 : ESPACE CLIENT =================== -->
+<section class="maquette-section">
+  <p class="maquette-label">Maquette 2 — Espace client</p>
+  <p class="maquette-subtitle">Tableau de bord d'un client connecté : gestion de son profil et de ses commandes</p>
+
+  <div class="mockup">
+    <div class="mockup-header">
+      <div class="mockup-logo">Vite <span class="amp">&amp;</span> Gourmand</div>
+      <div class="mockup-nav">
+        <span>Accueil</span><span>Nos menus</span><span>Contact</span><span class="active">Mon espace</span><span class="logout">Déconnexion</span>
+      </div>
+    </div>
+
+    <div class="espace-main">
+      <div class="espace-greeting">
+        <div class="greeting-avatar">👤</div>
+        <p class="espace-title">Bonjour Marie <span class="accent">!</span></p>
+      </div>
+      <p class="espace-subtitle">Gérez votre compte et suivez vos commandes</p>
+
+      <div class="espace-grid">
+        <div class="card-block">
+          <h3>Mes informations</h3>
+          <div class="form-group">
+            <label>Nom</label>
+            <div class="form-input">Dupont</div>
+          </div>
+          <div class="form-group">
+            <label>Prénom</label>
+            <div class="form-input">Marie</div>
+          </div>
+          <div class="form-group">
+            <label>Téléphone</label>
+            <div class="form-input">06 13 45 78 99</div>
+          </div>
+          <div class="form-group">
+            <label>Adresse postale</label>
+            <div class="form-input">123 rue de la République, 33000 Bordeaux</div>
+          </div>
+          <div class="btn-or">Mettre à jour</div>
+        </div>
+
+        <div>
+          <div class="section-header-mini">
+            <span style="color: var(--corail); font-size: 16px;">📦</span>
+            <h3>Mes commandes</h3>
+          </div>
+          <div class="empty-state">
+            <p>Vous n'avez pas encore passé de commande.</p>
+            <div class="btn-bordeaux">DÉCOUVRIR NOS MENUS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mockup-footer">
+      <div class="footer-col">
+        <h4>Vite &amp; Gourmand</h4>
+        <p>Traiteur d'exception à Bordeaux depuis 25 ans.</p>
+      </div>
+      <div class="footer-col">
+        <h4>🕐 Nos horaires</h4>
+        <p>Lundi-Vendredi : 09:00 - 18:00<br>Samedi : 10:00 - 16:00<br>Dimanche : Fermé</p>
+      </div>
+      <div class="footer-col">
+        <h4>📍 Nous contacter</h4>
+        <p>Bordeaux, Gironde<br>05 56 XX XX XX<br>contact@vite-et-gourmand.fr</p>
+      </div>
+    </div>
+    <div class="footer-legal">© 2026 Vite &amp; Gourmand — Tous droits réservés</div>
+  </div>
+
+  <div class="functional-zones">
+    <strong>Zones fonctionnelles</strong>
+    Header noir avec navigation personnalisée pour utilisateur connecté · Salutation dynamique "Bonjour [prénom]" · Carte "Mes informations" avec formulaire de mise à jour (nom, prénom, téléphone, adresse) · Carte "Mes commandes" avec affichage de l'historique ou état vide avec CTA de redirection vers les menus · Footer cohérent
+  </div>
+</section>
+
+<!-- =================== MAQUETTE 3 : ESPACE ADMIN =================== -->
+<section class="maquette-section">
+  <p class="maquette-label">Maquette 3 — Espace administrateur</p>
+  <p class="maquette-subtitle">Pilotage de l'équipe et suivi des performances commerciales</p>
+
+  <div class="mockup">
+    <div class="mockup-header">
+      <div class="mockup-logo">Vite <span class="amp">&amp;</span> Gourmand</div>
+      <div class="mockup-nav">
+        <span>Accueil</span><span>Nos menus</span><span>Contact</span><span class="active">Espace admin</span><span class="logout">Déconnexion</span>
+      </div>
+    </div>
+
+    <div class="espace-main">
+      <div class="espace-greeting">
+        <div class="greeting-avatar" style="background: var(--violet);">⚙️</div>
+        <p class="espace-title">Espace Administrateur</p>
+      </div>
+      <p class="espace-subtitle">Gérez votre équipe et suivez les performances</p>
+
+      <div class="alert-success">Compte employé créé pour Martin Lucas.</div>
+
+      <div class="admin-grid">
+        <div class="card-block">
+          <div class="section-header-mini" style="margin-bottom: 14px;">
+            <span style="color: var(--violet); font-size: 14px;">+</span>
+            <h3 style="font-size: 14px;">Créer un compte employé</h3>
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <div class="form-input" style="height: 30px;"></div>
+          </div>
+          <div class="form-group">
+            <label>Prénom</label>
+            <div class="form-input" style="height: 30px;"></div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <div class="form-input" style="height: 30px;"></div>
+          </div>
+          <div class="form-group">
+            <label>Mot de passe</label>
+            <div class="form-input" style="height: 30px;"></div>
+          </div>
+          <div class="btn-or">Créer le compte</div>
+        </div>
+
+        <div class="card-block">
+          <div class="section-header-mini" style="margin-bottom: 14px;">
+            <span style="color: var(--violet); font-size: 14px;">👥</span>
+            <h3 style="font-size: 14px;">Comptes employés</h3>
+          </div>
+          <table class="table-employees">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Statut</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Martin Lucas</td>
+                <td style="font-size: 10px;">lucas.martin@vite-et-gourmand.fr</td>
+                <td><span class="badge-actif">Actif</span></td>
+                <td><span class="badge-action">Désactiver</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="section-header-mini">
+          <span style="color: var(--violet); font-size: 14px;">📊</span>
+          <h3 style="font-family: 'Playfair Display', serif; color: var(--noir); font-size: 14px;">Statistiques par menu</h3>
+        </div>
+        <div class="chart-bars">
+          <div class="chart-y">
+            <span>1,0</span><span>0,8</span><span>0,6</span><span>0,4</span><span>0,2</span><span>0</span>
+          </div>
+          <div style="width: 26px;"></div>
+          <div class="bar b-bx" style="height: 75%;"></div>
+          <div class="bar b-or" style="height: 55%;"></div>
+          <div class="bar b-sg" style="height: 40%;"></div>
+          <div class="bar b-co" style="height: 30%;"></div>
+        </div>
+        <div class="chart-table">
+          <span>Menu</span><span>Nb commandes</span><span>Chiffre d'affaires</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mockup-footer">
+      <div class="footer-col">
+        <h4>Vite &amp; Gourmand</h4>
+        <p>Traiteur d'exception à Bordeaux depuis 25 ans.</p>
+      </div>
+      <div class="footer-col">
+        <h4>🕐 Nos horaires</h4>
+        <p>Lundi-Vendredi : 09:00 - 18:00<br>Samedi : 10:00 - 16:00<br>Dimanche : Fermé</p>
+      </div>
+      <div class="footer-col">
+        <h4>📍 Nous contacter</h4>
+        <p>Bordeaux, Gironde<br>05 56 XX XX XX<br>contact@vite-et-gourmand.fr</p>
+      </div>
+    </div>
+    <div class="footer-legal">© 2026 Vite &amp; Gourmand — Tous droits réservés</div>
+  </div>
+
+  <div class="functional-zones">
+    <strong>Zones fonctionnelles</strong>
+    Header noir avec navigation administrateur · Titre de section avec sous-titre · Bandeau de confirmation après création de compte · Formulaire de création de compte employé (nom, prénom, email, mot de passe) · Tableau récapitulatif des comptes employés avec statut Actif/Inactif et bouton de désactivation · Bloc Statistiques par menu (Chart.js) avec graphique en barres et tableau de données (nb commandes, chiffre d'affaires)
+  </div>
+</section>
+
+<!-- =================== MAQUETTE 4 : ESPACE EMPLOYÉ =================== -->
+<section class="maquette-section">
+  <p class="maquette-label">Maquette 4 — Espace employé</p>
+  <p class="maquette-subtitle">Gestion opérationnelle des commandes et modération des avis clients</p>
+
+  <div class="mockup">
+    <div class="mockup-header">
+      <div class="mockup-logo">Vite <span class="amp">&amp;</span> Gourmand</div>
+      <div class="mockup-nav">
+        <span>Accueil</span><span>Nos menus</span><span>Contact</span><span class="active">Espace employé</span><span class="logout">Déconnexion</span>
+      </div>
+    </div>
+
+    <div class="espace-main">
+      <div class="espace-greeting">
+        <div class="greeting-avatar" style="background: #C9A875;">👨‍🍳</div>
+        <p class="espace-title">Espace Employé</p>
+      </div>
+      <p class="espace-subtitle">Gérez les commandes et modérez les avis clients</p>
+
+      <div class="filters-bar">
+        <div>
+          <label>Filtrer par statut</label>
+          <div class="filter-select"><span style="color: var(--noir);">Tous</span><span>▼</span></div>
+        </div>
+        <div>
+          <label>Rechercher un client</label>
+          <div class="filter-search">Nom, prénom ou email</div>
+        </div>
+        <div class="btn-or-sm">Filtrer</div>
+        <div class="btn-outline-sm">Réinitialiser</div>
+      </div>
+
+      <div class="section-header-mini">
+        <span style="font-size: 15px;">📦</span>
+        <h3>Commandes <span style="color: var(--texte-clair); font-weight: 400;">(0)</span></h3>
+      </div>
+      <div class="empty-state" style="margin-bottom: 18px;">
+        <p style="margin: 0;">Aucune commande trouvée.</p>
+      </div>
+
+      <div class="section-header-mini">
+        <span style="color: var(--or); font-size: 15px;">★</span>
+        <h3>Avis en attente de modération <span style="color: var(--texte-clair); font-weight: 400;">(0)</span></h3>
+      </div>
+      <div class="empty-state">
+        <p style="margin: 0;">Aucun avis en attente.</p>
+      </div>
+    </div>
+
+    <div class="mockup-footer">
+      <div class="footer-col">
+        <h4>Vite &amp; Gourmand</h4>
+        <p>Traiteur d'exception à Bordeaux depuis 25 ans.</p>
+      </div>
+      <div class="footer-col">
+        <h4>🕐 Nos horaires</h4>
+        <p>Lundi-Vendredi : 09:00 - 18:00<br>Samedi : 10:00 - 16:00<br>Dimanche : Fermé</p>
+      </div>
+      <div class="footer-col">
+        <h4>📍 Nous contacter</h4>
+        <p>Bordeaux, Gironde<br>05 56 XX XX XX<br>contact@vite-et-gourmand.fr</p>
+      </div>
+    </div>
+    <div class="footer-legal">© 2026 Vite &amp; Gourmand — Tous droits réservés</div>
+  </div>
+
+  <div class="functional-zones">
+    <strong>Zones fonctionnelles</strong>
+    Header noir avec navigation employé · Titre de section "Espace Employé" · Barre de filtres avec sélection par statut, recherche par client et boutons d'action · Section "Commandes" avec compteur dynamique et liste filtrable · Section "Avis en attente de modération" avec compteur dynamique permettant à l'employé de valider ou rejeter les avis clients
+  </div>
+</section>
+
+<div class="footer-credits">
+  <p>Maquettes réalisées pour l'ECF — TP Développeur Web et Web Mobile (RNCP 37674)</p>
+  <p style="margin-top: 6px;">Palette : Noir #1F1813 · Bordeaux #7A1F2A · Or #C9A875 · Crème #F5EBDE</p>
+</div>
+
+</body>
+</html>
