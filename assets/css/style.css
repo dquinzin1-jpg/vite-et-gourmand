@@ -1,0 +1,1003 @@
+/* ==========================================================================
+   VITE & GOURMAND - FEUILLE DE STYLE PREMIUM
+   Auteur : Dylan Quinzin
+   Version : 1.0
+   Description : Design premium pour traiteur haut de gamme à Bordeaux
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIABLES CSS (Custom Properties) - Palette de couleurs
+   ========================================================================== */
+:root {
+    /* Palette principale */
+    --color-bordeaux: #7A1F2A;          /* Bordeaux profond - couleur principale */
+    --color-bordeaux-dark: #5C1620;     /* Bordeaux foncé - hover */
+    --color-gold: #C9A875;              /* Or chaud / ambre */
+    --color-gold-light: #D4B98A;        /* Or clair */
+    --color-sage: #5E6B5C;              /* Vert sauge */
+    
+    /* Tons neutres */
+    --color-charcoal: #1A1612;          /* Noir profond / texte */
+    --color-charcoal-light: #2D2520;    /* Noir doux */
+    --color-cream: #E8DCC4;             /* Crème vieillie */
+    --color-cream-light: #F5EFE6;       /* Crème claire */
+    --color-white: #FAF7F0;             /* Blanc cassé */
+    --color-gray: #6B6560;              /* Gris doux */
+    
+    /* Typographies */
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* Espacements */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+    
+    /* Bordures arrondies */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    
+    /* Ombres */
+    --shadow-sm: 0 2px 8px rgba(26, 22, 18, 0.08);
+    --shadow-md: 0 8px 24px rgba(26, 22, 18, 0.12);
+    --shadow-lg: 0 16px 48px rgba(26, 22, 18, 0.18);
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.4s ease;
+    --transition-slow: 0.6s ease;
+}
+
+/* ==========================================================================
+   2. RESET & STYLES DE BASE
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-charcoal);
+    background-color: var(--color-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-charcoal);
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+a {
+    color: var(--color-bordeaux);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-gold);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   3. NAVIGATION / HEADER
+   ========================================================================== */
+.navbar-custom {
+    background-color: rgba(26, 22, 18, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    transition: all var(--transition-medium);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-custom .navbar-brand {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-cream-light) !important;
+    letter-spacing: 0.5px;
+}
+
+.navbar-custom .navbar-brand span {
+    color: var(--color-gold);
+}
+
+.navbar-custom .nav-link {
+    color: var(--color-cream-light) !important;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem !important;
+    position: relative;
+    transition: color var(--transition-fast);
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+}
+
+.navbar-custom .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-gold);
+    transition: all var(--transition-medium);
+    transform: translateX(-50%);
+}
+
+.navbar-custom .nav-link:hover::after {
+    width: 60%;
+}
+
+.navbar-custom .nav-link:hover {
+    color: var(--color-gold) !important;
+}
+
+.navbar-custom .nav-link.deconnexion {
+    color: #E8A8A8 !important;
+}
+
+.navbar-custom .nav-link.deconnexion:hover {
+    color: #FF6B6B !important;
+}
+
+.navbar-toggler {
+    border-color: var(--color-gold) !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ==========================================================================
+   4. HERO SECTION
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    height: 90vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(rgba(26, 22, 18, 0.5), rgba(26, 22, 18, 0.7)), url('../images/hero-accueil.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--color-white);
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 900px;
+    padding: 2rem;
+    animation: fadeInUp 1.2s ease-out;
+}
+
+.hero-content h1 {
+    color: var(--color-white);
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content h1 .accent {
+    color: var(--color-gold);
+    font-style: italic;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-separator {
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-gold);
+    margin: 2rem auto;
+}
+
+/* ==========================================================================
+   5. BOUTONS
+   ========================================================================== */
+.btn-primary-custom {
+    background-color: var(--color-bordeaux);
+    color: var(--color-white);
+    border: 2px solid var(--color-bordeaux);
+    padding: 0.9rem 2.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-medium);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--color-bordeaux-dark);
+    border-color: var(--color-bordeaux-dark);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-gold {
+    background-color: var(--color-gold);
+    color: var(--color-charcoal);
+    border: 2px solid var(--color-gold);
+    padding: 0.9rem 2.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-medium);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-gold:hover {
+    background-color: transparent;
+    color: var(--color-gold);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-custom {
+    background-color: transparent;
+    color: var(--color-white);
+    border: 2px solid var(--color-white);
+    padding: 0.9rem 2.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-medium);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--color-white);
+    color: var(--color-charcoal);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   6. SECTIONS GÉNÉRIQUES
+   ========================================================================== */
+.section-padding {
+    padding: var(--spacing-xl) 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    color: var(--color-charcoal);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-gold);
+    margin: 1rem auto 0;
+}
+
+.section-title .subtitle {
+    color: var(--color-gray);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.section-cream {
+    background-color: var(--color-cream-light);
+}
+
+.section-dark {
+    background-color: var(--color-charcoal);
+    color: var(--color-cream-light);
+}
+
+.section-dark h2,
+.section-dark h3 {
+    color: var(--color-cream-light);
+}
+
+/* ==========================================================================
+   7. CARDS / FEATURES
+   ========================================================================== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background-color: var(--color-white);
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-medium);
+    border-top: 4px solid transparent;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-top-color: var(--color-gold);
+}
+
+.feature-card .icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background-color: var(--color-cream-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--color-bordeaux);
+    transition: all var(--transition-medium);
+}
+
+.feature-card:hover .icon {
+    background-color: var(--color-bordeaux);
+    color: var(--color-gold);
+    transform: rotateY(360deg);
+}
+
+.feature-card h3 {
+    color: var(--color-bordeaux);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card p {
+    color: var(--color-gray);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   8. SECTION À PROPOS / NOTRE SAVOIR-FAIRE
+   ========================================================================== */
+.about-section {
+    background-color: var(--color-cream-light);
+    padding: var(--spacing-xl) 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+}
+
+.about-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+.about-content h2 {
+    color: var(--color-bordeaux);
+    margin-bottom: 1.5rem;
+}
+
+.about-content .lead {
+    font-size: 1.2rem;
+    color: var(--color-charcoal);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.about-content p {
+    color: var(--color-gray);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.about-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(122, 31, 42, 0.2);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--color-bordeaux);
+    font-weight: 700;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   9. SECTION PRESTATIONS / MENUS
+   ========================================================================== */
+.prestations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.prestation-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    height: 450px;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-medium);
+}
+
+.prestation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.prestation-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.prestation-card:hover img {
+    transform: scale(1.1);
+}
+
+.prestation-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(26, 22, 18, 0.95), rgba(26, 22, 18, 0.7), transparent);
+    padding: 2.5rem 2rem;
+    color: var(--color-white);
+    transition: all var(--transition-medium);
+}
+
+.prestation-overlay h3 {
+    color: var(--color-white);
+    margin-bottom: 0.8rem;
+    font-size: 1.6rem;
+}
+
+.prestation-overlay p {
+    color: var(--color-cream-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.prestation-tag {
+    display: inline-block;
+    background-color: var(--color-gold);
+    color: var(--color-charcoal);
+    padding: 0.3rem 1rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   10. SECTION AVIS / TÉMOIGNAGES
+   ========================================================================== */
+.testimonials-section {
+    background-color: var(--color-charcoal);
+    background-image: linear-gradient(rgba(26, 22, 18, 0.92), rgba(26, 22, 18, 0.92)), url('../images/wine-accent.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--color-cream-light);
+    padding: var(--spacing-xl) 0;
+}
+
+.testimonials-section .section-title h2 {
+    color: var(--color-cream-light);
+}
+
+.testimonials-section .section-title .subtitle {
+    color: var(--color-cream);
+}
+
+.testimonial-card {
+    background-color: rgba(245, 239, 230, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(201, 168, 117, 0.2);
+    padding: 2.5rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: all var(--transition-medium);
+}
+
+.testimonial-card:hover {
+    background-color: rgba(245, 239, 230, 0.1);
+    transform: translateY(-5px);
+}
+
+.testimonial-stars {
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+}
+
+.testimonial-text {
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-cream-light);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-heading);
+}
+
+.testimonial-author {
+    color: var(--color-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   11. FORMULAIRES (Connexion, Inscription, etc.)
+   ========================================================================== */
+.form-section {
+    background-color: var(--color-cream-light);
+    min-height: 80vh;
+    padding: var(--spacing-lg) 0;
+    display: flex;
+    align-items: center;
+}
+
+.form-card {
+    background-color: var(--color-white);
+    padding: 3rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-card h2 {
+    text-align: center;
+    color: var(--color-bordeaux);
+    margin-bottom: 0.5rem;
+}
+
+.form-card .form-subtitle {
+    text-align: center;
+    color: var(--color-gray);
+    margin-bottom: 2rem;
+}
+
+.form-card .form-label {
+    color: var(--color-charcoal);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.form-card .form-control {
+    border: 1px solid #E0DAD0;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast);
+    font-size: 1rem;
+}
+
+.form-card .form-control:focus {
+    border-color: var(--color-bordeaux);
+    box-shadow: 0 0 0 0.2rem rgba(122, 31, 42, 0.1);
+}
+
+.form-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--color-gray);
+}
+
+.form-link a {
+    color: var(--color-bordeaux);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   12. ESPACES UTILISATEURS (Admin, Employé, User)
+   ========================================================================== */
+.dashboard-section {
+    background-color: var(--color-cream-light);
+    min-height: 80vh;
+    padding: var(--spacing-md) 0;
+}
+
+.dashboard-section h2 {
+    color: var(--color-bordeaux);
+    margin-bottom: 2rem;
+}
+
+.dashboard-section .card {
+    border: none;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-medium);
+}
+
+.dashboard-section .card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.dashboard-section .card .card-title {
+    color: var(--color-bordeaux);
+    font-family: var(--font-heading);
+}
+
+.btn-warning {
+    background-color: var(--color-gold) !important;
+    border-color: var(--color-gold) !important;
+    color: var(--color-charcoal) !important;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    background-color: var(--color-bordeaux) !important;
+    border-color: var(--color-bordeaux) !important;
+    color: var(--color-white) !important;
+}
+
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+.footer-custom {
+    background-color: var(--color-charcoal);
+    color: var(--color-cream-light);
+    padding: var(--spacing-lg) 0 var(--spacing-md);
+    margin-top: 0;
+}
+
+.footer-custom h5 {
+    color: var(--color-gold);
+    font-family: var(--font-heading);
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.footer-custom p,
+.footer-custom a {
+    color: var(--color-cream);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.footer-custom a:hover {
+    color: var(--color-gold);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(201, 168, 117, 0.2);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--color-gray);
+    font-size: 0.85rem;
+}
+
+.footer-bottom .legal-links a {
+    color: var(--color-cream);
+    margin: 0 0.5rem;
+}
+
+/* ==========================================================================
+   14. ANIMATIONS
+   ========================================================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   15. RESPONSIVE / MOBILE
+   ========================================================================== */
+@media (max-width: 991px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-image img {
+        height: 400px;
+    }
+    
+    .hero-section {
+        height: 80vh;
+        background-attachment: scroll;
+    }
+    
+    .navbar-custom {
+        padding: 0.8rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --spacing-xl: 4rem;
+        --spacing-lg: 3rem;
+    }
+    
+    .hero-section {
+        height: 75vh;
+        min-height: 500px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .prestations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-card {
+        padding: 2rem 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .about-stats {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .footer-custom {
+        text-align: center;
+    }
+    
+    .footer-custom h5 {
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .btn-primary-custom,
+    .btn-gold,
+    .btn-outline-custom {
+        padding: 0.7rem 1.8rem;
+        font-size: 0.85rem;
+    }
+}
+/* ==========================================================================
+   AJOUT - CARDS MENUS (à coller à la fin de style.css)
+   ========================================================================== */
+
+.menu-detail-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-medium);
+    height: 100%;
+}
+
+.menu-detail-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.menu-detail-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.menu-detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.menu-detail-card:hover .menu-detail-image img {
+    transform: scale(1.1);
+}
+
+.menu-detail-price {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--color-bordeaux);
+    color: var(--color-gold);
+    padding: 0.7rem 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.3rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+}
+
+.menu-detail-content {
+    padding: 2rem;
+}
+
+.menu-detail-content h3 {
+    color: var(--color-bordeaux);
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+}
+
+.menu-detail-content p {
+    color: var(--color-gray);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    min-height: 80px;
+}
+
+/* ==========================================================================
+   FORMULAIRES - Espace utilisateur amélioré
+   ========================================================================== */
+.dashboard-section .form-control,
+.dashboard-section .form-select {
+    border: 1px solid #E0DAD0;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast);
+}
+
+.dashboard-section .form-control:focus,
+.dashboard-section .form-select:focus {
+    border-color: var(--color-bordeaux);
+    box-shadow: 0 0 0 0.2rem rgba(122, 31, 42, 0.1);
+}
+
+.dashboard-section .form-label {
+    color: var(--color-charcoal);
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+}
+
+.dashboard-section .badge {
+    padding: 0.5rem 0.8rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.dashboard-section h5 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+.dashboard-section .table {
+    color: var(--color-charcoal);
+}
+
+.dashboard-section .table thead {
+    background-color: var(--color-cream-light);
+}
+
+.dashboard-section .table thead th {
+    color: var(--color-bordeaux);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-gold);
+}

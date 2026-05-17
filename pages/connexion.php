@@ -22,35 +22,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<main class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <h2 class="mb-4 text-center">Connexion</h2>
+<section class="form-section">
+    <div class="container">
+        <div class="form-card">
+            <h2>Connexion</h2>
+            <p class="form-subtitle">Heureux de vous retrouver !</p>
+            
             <?php if ($erreur): ?>
                 <div class="alert alert-danger"><?= htmlspecialchars($erreur) ?></div>
             <?php endif; ?>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <form method="POST">
-                        <div class="mb-3">
-                            <label class="form-label">Adresse email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mot de passe</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-warning">Se connecter</button>
-                        </div>
-                        <p class="text-center mt-3">
-                            Pas encore de compte ? <a href="<?= $BASE_URL ?>/pages/inscription.php">S'inscrire</a>
-                        </p>
-                    </form>
+            
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Adresse email</label>
+                    <input type="email" name="email" class="form-control" placeholder="votre@email.fr" required>
                 </div>
-            </div>
+                <div class="mb-4">
+                    <label class="form-label">Mot de passe</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••••" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn-primary-custom" style="width: 100%; border: none;">Se connecter</button>
+                </div>
+                <p class="form-link">
+                    Pas encore de compte ? <a href="<?= $BASE_URL ?>/pages/inscription.php">Créez votre compte</a>
+                </p>
+            </form>
         </div>
     </div>
-</main>
+</section>
 
 <?php include_once __DIR__ . '/../includes/footer.php'; ?>

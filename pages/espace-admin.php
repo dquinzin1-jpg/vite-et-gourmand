@@ -44,119 +44,122 @@ $employes = $pdo->query("SELECT * FROM utilisateur WHERE role_id = 2")->fetchAll
 $stats = $pdo->query("SELECT m.titre, COUNT(c.commande_id) as nb_commandes, SUM(c.prix_total) as chiffre_affaires FROM commande c JOIN menu m ON c.menu_id = m.menu_id WHERE c.statut != 'annulee' GROUP BY m.menu_id")->fetchAll();
 ?>
 
-<main class="container my-5">
-    <h2 class="mb-4">⚙️ Espace Administrateur</h2>
+<section class="dashboard-section">
+    <div class="container">
+        <h2>⚙️ Espace Administrateur</h2>
+        <p style="color: var(--color-gray); margin-bottom: 2rem;">Gérez votre équipe et suivez les performances</p>
 
-    <?php if ($succes): ?>
-        <div class="alert alert-success"><?= htmlspecialchars($succes) ?></div>
-    <?php endif; ?>
-    <?php if ($erreur): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($erreur) ?></div>
-    <?php endif; ?>
+        <?php if ($succes): ?>
+            <div class="alert alert-success"><?= htmlspecialchars($succes) ?></div>
+        <?php endif; ?>
+        <?php if ($erreur): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($erreur) ?></div>
+        <?php endif; ?>
 
-    <div class="row">
-        <!-- Créer un employé -->
-        <div class="col-md-5 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>➕ Créer un compte employé</h5>
-                    <form method="POST">
-                        <input type="hidden" name="action" value="creer_employe">
-                        <div class="mb-2">
-                            <label class="form-label">Nom</label>
-                            <input type="text" name="nom" class="form-control" required>
-                        </div>
-                        <div class="mb-2">
-                            <label class="form-label">Prénom</label>
-                            <input type="text" name="prenom" class="form-control" required>
-                        </div>
-                        <div class="mb-2">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mot de passe</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-warning w-100">Créer le compte</button>
-                    </form>
+        <div class="row">
+            <!-- Créer un employé -->
+            <div class="col-md-5 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>➕ Créer un compte employé</h5>
+                        <form method="POST">
+                            <input type="hidden" name="action" value="creer_employe">
+                            <div class="mb-2">
+                                <label class="form-label">Nom</label>
+                                <input type="text" name="nom" class="form-control" required>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Prénom</label>
+                                <input type="text" name="prenom" class="form-control" required>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mot de passe</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-warning w-100">Créer le compte</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Liste des employés -->
-        <div class="col-md-7 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>👥 Comptes employés</h5>
-                    <?php if (empty($employes)): ?>
-                        <p class="text-muted">Aucun employé enregistré.</p>
-                    <?php else: ?>
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Email</th>
-                                    <th>Statut</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($employes as $emp): ?>
+            <!-- Liste des employés -->
+            <div class="col-md-7 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>👥 Comptes employés</h5>
+                        <?php if (empty($employes)): ?>
+                            <p class="text-muted">Aucun employé enregistré.</p>
+                        <?php else: ?>
+                            <table class="table table-sm">
+                                <thead>
                                     <tr>
-                                        <td><?= htmlspecialchars($emp['prenom']) ?> <?= htmlspecialchars($emp['nom']) ?></td>
-                                        <td><?= htmlspecialchars($emp['email']) ?></td>
-                                        <td>
-                                            <span class="badge bg-<?= $emp['statut'] ? 'success' : 'danger' ?>">
-                                                <?= $emp['statut'] ? 'Actif' : 'Inactif' ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <form method="POST" class="d-inline">
-                                                <input type="hidden" name="action" value="toggle_employe">
-                                                <input type="hidden" name="user_id" value="<?= $emp['utilisateur_id'] ?>">
-                                                <input type="hidden" name="statut" value="<?= $emp['statut'] ? 0 : 1 ?>">
-                                                <button type="submit" class="btn btn-sm btn-<?= $emp['statut'] ? 'danger' : 'success' ?>">
-                                                    <?= $emp['statut'] ? 'Désactiver' : 'Activer' ?>
-                                                </button>
-                                            </form>
-                                        </td>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Statut</th>
+                                        <th>Action</th>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php endif; ?>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($employes as $emp): ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($emp['prenom']) ?> <?= htmlspecialchars($emp['nom']) ?></td>
+                                            <td><?= htmlspecialchars($emp['email']) ?></td>
+                                            <td>
+                                                <span class="badge bg-<?= $emp['statut'] ? 'success' : 'danger' ?>">
+                                                    <?= $emp['statut'] ? 'Actif' : 'Inactif' ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <form method="POST" class="d-inline">
+                                                    <input type="hidden" name="action" value="toggle_employe">
+                                                    <input type="hidden" name="user_id" value="<?= $emp['utilisateur_id'] ?>">
+                                                    <input type="hidden" name="statut" value="<?= $emp['statut'] ? 0 : 1 ?>">
+                                                    <button type="submit" class="btn btn-sm btn-<?= $emp['statut'] ? 'danger' : 'success' ?>">
+                                                        <?= $emp['statut'] ? 'Désactiver' : 'Activer' ?>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Statistiques -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h5>📊 Statistiques par menu</h5>
-            <canvas id="graphique-commandes" height="100"></canvas>
-            <table class="table table-striped mt-4">
-                <thead>
-                    <tr>
-                        <th>Menu</th>
-                        <th>Nb commandes</th>
-                        <th>Chiffre d'affaires</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($stats as $s): ?>
+        <!-- Statistiques -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>📊 Statistiques par menu</h5>
+                <canvas id="graphique-commandes" height="100"></canvas>
+                <table class="table table-striped mt-4">
+                    <thead>
                         <tr>
-                            <td><?= htmlspecialchars($s['titre']) ?></td>
-                            <td><?= $s['nb_commandes'] ?></td>
-                            <td><?= number_format($s['chiffre_affaires'], 2) ?> €</td>
+                            <th>Menu</th>
+                            <th>Nb commandes</th>
+                            <th>Chiffre d'affaires</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($stats as $s): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($s['titre']) ?></td>
+                                <td><?= $s['nb_commandes'] ?></td>
+                                <td><?= number_format($s['chiffre_affaires'], 2) ?> €</td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</main>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -170,8 +173,8 @@ new Chart(document.getElementById('graphique-commandes'), {
         datasets: [{
             label: 'Nombre de commandes',
             data: data,
-            backgroundColor: 'rgba(255, 193, 7, 0.7)',
-            borderColor: 'rgba(255, 193, 7, 1)',
+            backgroundColor: 'rgba(201, 168, 117, 0.7)',
+            borderColor: 'rgba(122, 31, 42, 1)',
             borderWidth: 1
         }]
     },

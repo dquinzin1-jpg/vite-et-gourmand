@@ -1,106 +1,88 @@
-<?php include_once '../includes/header.php'; ?>
+<?php 
+include_once __DIR__ . '/../includes/header.php';
 
-<main class="container my-5">
-    <h2 class="mb-4 text-center">Nos Menus</h2>
+// Récupération de tous les menus
+$menus = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM menu ORDER BY menu_id");
+    $menus = $stmt->fetchAll();
+} catch (Exception $e) {
+    // Si la requête échoue, on continue avec un tableau vide
+}
 
-    <!-- Filtres -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Prix maximum (€)</label>
-                    <input type="number" id="filtre-prix-max" class="form-control" placeholder="Ex: 100">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Thème</label>
-                    <select id="filtre-theme" class="form-select">
-                        <option value="">Tous</option>
-                        <?php
-                        $themes = $pdo->query("SELECT * FROM theme")->fetchAll();
-                        foreach ($themes as $t): ?>
-                            <option value="<?= $t['theme_id'] ?>"><?= htmlspecialchars($t['libelle']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Régime</label>
-                    <select id="filtre-regime" class="form-select">
-                        <option value="">Tous</option>
-                        <?php
-                        $regimes = $pdo->query("SELECT * FROM regime")->fetchAll();
-                        foreach ($regimes as $r): ?>
-                            <option value="<?= $r['regime_id'] ?>"><?= htmlspecialchars($r['libelle']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Personnes minimum</label>
-                    <input type="number" id="filtre-personnes" class="form-control" placeholder="Ex: 10">
-                </div>
-            </div>
-            <div class="text-end mt-3">
-                <button onclick="filtrerMenus()" class="btn btn-warning">🔍 Filtrer</button>
-                <button onclick="resetFiltres()" class="btn btn-outline-secondary ms-2">Réinitialiser</button>
-            </div>
+// Photos associées aux menus (par défaut, on alterne)
+$photos_menus = [
+    'menu-mariage.jpg',
+    'menu-entreprise.jpg',
+    'menu-anniversaire.jpg',
+    'hero-accueil.jpg'
+];
+?>
+
+<!-- ==========================================================================
+     HERO PAGE MENUS
+========================================================================== -->
+<section class="hero-section" style="height: 50vh; min-height: 350px; background-image: linear-gradient(rgba(26, 22, 18, 0.6), rgba(26, 22, 18, 0.8)), url('<?= $BASE_URL ?>/assets/images/menu-entreprise.jpg');">
+    <div class="hero-content">
+        <h1 style="font-size: clamp(2rem, 4vw, 3.5rem);">Nos <span class="accent">menus</span></h1>
+        <div class="hero-separator"></div>
+        <p class="hero-subtitle" style="font-size: 1.1rem;">
+            Découvrez nos créations culinaires, élaborées avec passion par notre équipe de chefs.
+        </p>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     LISTE DES MENUS
+========================================================================== -->
+<section class="section-padding section-cream">
+    <div class="container">
+        <div class="section-title">
+            <h2>Une carte d'exception</h2>
+            <p class="subtitle">Chaque menu est pensé pour s'adapter à votre événement, vos goûts et votre budget. Cliquez pour découvrir le détail.</p>
         </div>
-    </div>
 
-    <!-- Liste des menus -->
-    <div class="row" id="liste-menus">
-        <?php
-        $stmt = $pdo->query("SELECT m.*, t.libelle as theme, r.libelle as regime 
-                             FROM menu m 
-                             JOIN theme t ON m.theme_id = t.theme_id 
-                             JOIN regime r ON m.regime_id = r.regime_id
-                             WHERE m.quantite_restante > 0");
-        $menus = $stmt->fetchAll();
-        foreach ($menus as $menu): ?>
-            <div class="col-md-4 mb-4 carte-menu"
-                 data-prix="<?= $menu['prix'] ?>"
-                 data-theme="<?= $menu['theme_id'] ?>"
-                 data-regime="<?= $menu['regime_id'] ?>"
-                 data-personnes="<?= $menu['nombre_personne_minimum'] ?>">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <span class="badge bg-warning text-dark mb-2"><?= htmlspecialchars($menu['theme']) ?></span>
-                        <span class="badge bg-success mb-2"><?= htmlspecialchars($menu['regime']) ?></span>
-                        <h5 class="card-title"><?= htmlspecialchars($menu['titre']) ?></h5>
-                        <p class="card-text"><?= htmlspecialchars(substr($menu['description'], 0, 100)) ?>...</p>
-                        <p class="mb-1"><strong>👥 Minimum :</strong> <?= $menu['nombre_personne_minimum'] ?> personnes</p>
-                        <p class="mb-1"><strong>💰 Prix :</strong> <?= number_format($menu['prix'], 2) ?> €</p>
-                        <p class="mb-3"><strong>📦 Stock :</strong> <?= $menu['quantite_restante'] ?> disponible(s)</p>
-                        <a href="/pages/menu-detail.php?id=<?= $menu['menu_id'] ?>" class="btn btn-warning w-100">Voir le détail</a>
-                    </div>
-                </div>
+        <?php if (empty($menus)): ?>
+            <div class="text-center mt-5">
+                <p class="text-muted">Aucun menu disponible pour le moment. Revenez bientôt !</p>
             </div>
-        <?php endforeach; ?>
+        <?php else: ?>
+            <div class="row mt-5">
+                <?php foreach ($menus as $index => $menu): 
+                    $photo = $photos_menus[$index % count($photos_menus)];
+                ?>
+                    <div class="col-lg-6 mb-4">
+                        <div class="menu-detail-card">
+                            <div class="menu-detail-image">
+                                <img src="<?= $BASE_URL ?>/assets/images/<?= $photo ?>" alt="<?= htmlspecialchars($menu['titre']) ?>">
+                                <div class="menu-detail-price">
+                                    <?= number_format($menu['prix'], 2) ?> €
+                                </div>
+                            </div>
+                            <div class="menu-detail-content">
+                                <h3><?= htmlspecialchars($menu['titre']) ?></h3>
+                                <p><?= htmlspecialchars($menu['description']) ?></p>
+                                <a href="<?= $BASE_URL ?>/pages/menu-detail.php?id=<?= $menu['menu_id'] ?>" class="btn-primary-custom">Voir le détail</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
-</main>
+</section>
 
-<script>
-function filtrerMenus() {
-    const prixMax = document.getElementById('filtre-prix-max').value;
-    const theme = document.getElementById('filtre-theme').value;
-    const regime = document.getElementById('filtre-regime').value;
-    const personnes = document.getElementById('filtre-personnes').value;
+<!-- ==========================================================================
+     SECTION CTA
+========================================================================== -->
+<section class="section-padding section-dark" style="background-image: linear-gradient(rgba(26, 22, 18, 0.92), rgba(26, 22, 18, 0.92)), url('<?= $BASE_URL ?>/assets/images/wine-accent.jpg'); background-size: cover; background-position: center;">
+    <div class="container text-center">
+        <h2>Une demande particulière ?</h2>
+        <p class="lead mt-3 mb-4" style="color: var(--color-cream); max-width: 700px; margin: 0 auto 2rem;">
+            Nous adaptons nos menus à vos contraintes : allergies, régime végétarien, exigences culturelles. Contactez-nous pour un menu sur mesure.
+        </p>
+        <a href="<?= $BASE_URL ?>/pages/contact.php" class="btn-gold">Demander un devis</a>
+    </div>
+</section>
 
-    document.querySelectorAll('.carte-menu').forEach(carte => {
-        let visible = true;
-        if (prixMax && parseFloat(carte.dataset.prix) > parseFloat(prixMax)) visible = false;
-        if (theme && carte.dataset.theme !== theme) visible = false;
-        if (regime && carte.dataset.regime !== regime) visible = false;
-        if (personnes && parseInt(carte.dataset.personnes) < parseInt(personnes)) visible = false;
-        carte.style.display = visible ? 'block' : 'none';
-    });
-}
-
-function resetFiltres() {
-    document.getElementById('filtre-prix-max').value = '';
-    document.getElementById('filtre-theme').value = '';
-    document.getElementById('filtre-regime').value = '';
-    document.getElementById('filtre-personnes').value = '';
-    document.querySelectorAll('.carte-menu').forEach(c => c.style.display = 'block');
-}
-</script>
-
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once __DIR__ . '/../includes/footer.php'; ?>

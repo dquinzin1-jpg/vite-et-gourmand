@@ -41,60 +41,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<main class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="mb-4 text-center">Créer un compte</h2>
+<section class="form-section">
+    <div class="container">
+        <div class="form-card" style="max-width: 600px;">
+            <h2>Créer un compte</h2>
+            <p class="form-subtitle">Rejoignez la famille Vite &amp; Gourmand</p>
+            
             <?php if ($erreur): ?>
                 <div class="alert alert-danger"><?= htmlspecialchars($erreur) ?></div>
             <?php endif; ?>
+            
             <?php if ($succes): ?>
                 <div class="alert alert-success">
                     <?= htmlspecialchars($succes) ?>
-                    <br><a href="<?= $BASE_URL ?>/pages/connexion.php" class="alert-link">Cliquez ici pour vous connecter</a>
+                    <br><a href="<?= $BASE_URL ?>/pages/connexion.php" class="alert-link">Cliquez ici pour vous connecter →</a>
                 </div>
             <?php endif; ?>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <form method="POST">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Nom</label>
-                                <input type="text" name="nom" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Prénom</label>
-                                <input type="text" name="prenom" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Téléphone</label>
-                            <input type="tel" name="telephone" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Adresse postale</label>
-                            <input type="text" name="adresse_postale" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mot de passe</label>
-                            <input type="password" name="password" class="form-control" required>
-                            <small class="text-muted">10 caractères min., avec majuscule, minuscule, chiffre et caractère spécial.</small>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-warning">Créer mon compte</button>
-                        </div>
-                        <p class="text-center mt-3">
-                            Déjà un compte ? <a href="<?= $BASE_URL ?>/pages/connexion.php">Se connecter</a>
-                        </p>
-                    </form>
+            
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nom</label>
+                        <input type="text" name="nom" class="form-control" placeholder="Dupont" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Prénom</label>
+                        <input type="text" name="prenom" class="form-control" placeholder="Marie" required>
+                    </div>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="marie.dupont@email.fr" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Téléphone</label>
+                    <input type="tel" name="telephone" class="form-control" placeholder="06 12 34 56 78" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Adresse postale</label>
+                    <input type="text" name="adresse_postale" class="form-control" placeholder="123 rue de la République, 33000 Bordeaux" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Mot de passe</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••••" required>
+                    <small class="text-muted">10 caractères min., avec majuscule, minuscule, chiffre et caractère spécial.</small>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn-primary-custom" style="width: 100%; border: none;">Créer mon compte</button>
+                </div>
+                <p class="form-link">
+                    Déjà un compte ? <a href="<?= $BASE_URL ?>/pages/connexion.php">Se connecter</a>
+                </p>
+            </form>
         </div>
     </div>
-</main>
+</section>
 
 <?php include_once __DIR__ . '/../includes/footer.php'; ?>
