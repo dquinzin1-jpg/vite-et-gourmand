@@ -158,6 +158,7 @@ CREATE TABLE avis (
     note INT NOT NULL CHECK (note BETWEEN 1 AND 5),
     description VARCHAR(255),
     statut VARCHAR(20) NOT NULL DEFAULT 'en attente' COMMENT 'en attente, valide, refuse',
+    date_avis DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     utilisateur_id INT NOT NULL,
     commande_id INT NOT NULL,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(utilisateur_id),

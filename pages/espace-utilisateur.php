@@ -71,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             if ($stmt->fetch()) {
                 $erreur = "Un avis a déjà été laissé pour cette commande.";
             } else {
-                // Insertion de l'avis (statut "en attente" pour modération employé)
-                $stmt = $pdo->prepare("INSERT INTO avis (note, description, statut, utilisateur_id, commande_id) VALUES (:note, :desc, 'en attente', :user_id, :cmd_id)");
+                // Insertion de l'avis avec date d'avis (statut "en attente" pour modération employé)
+                $stmt = $pdo->prepare("INSERT INTO avis (note, description, statut, date_avis, utilisateur_id, commande_id) VALUES (:note, :desc, 'en attente', NOW(), :user_id, :cmd_id)");
                 $stmt->execute([
                     ':note' => $note,
                     ':desc' => $description,
