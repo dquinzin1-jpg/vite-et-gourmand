@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquettes mobiles — Vite & Gourmand</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F5EBDE;
+            color: #1F1813;
+            padding: 40px 20px;
+        }
+        h1.page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #7A1F2A;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #6c5e54;
+            margin-bottom: 50px;
+        }
+        .mockups-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .mockup-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .mockup-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #7A1F2A;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .mockup-description {
+            font-size: 0.9rem;
+            color: #6c5e54;
+            max-width: 350px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Téléphone mobile */
+        .phone {
+            width: 350px;
+            height: 720px;
+            background: #1F1813;
+            border-radius: 35px;
+            padding: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .phone::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 18px;
+            background: #1F1813;
+            border-radius: 12px;
+            z-index: 10;
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #F5EBDE;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        /* Header mobile */
+        .mobile-header {
+            background: #1F1813;
+            color: #F5EBDE;
+            padding: 35px 18px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mobile-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+        }
+        .mobile-logo span { color: #C9A875; }
+        .mobile-burger {
+            font-size: 1.5rem;
+            color: #C9A875;
+        }
+        /* Hero mobile */
+        .mobile-hero {
+            background: linear-gradient(rgba(31, 24, 19, 0.6), rgba(31, 24, 19, 0.8)), 
+                        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400');
+            background-size: cover;
+            background-position: center;
+            color: #F5EBDE;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .mobile-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+        .mobile-hero h1 span { color: #C9A875; }
+        .mobile-hero p {
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        .btn-gold-mobile {
+            background: #C9A875;
+            color: #1F1813;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        /* Section témoignages mobile */
+        .mobile-section {
+            padding: 25px 18px;
+        }
+        .mobile-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #7A1F2A;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .testimonial-card-mobile {
+            background: #FFF8EE;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .testimonial-stars-mobile {
+            color: #C9A875;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .testimonial-text-mobile {
+            font-size: 0.82rem;
+            font-style: italic;
+            margin-bottom: 6px;
+        }
+        .testimonial-author-mobile {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #7A1F2A;
+        }
+        /* Filtres mobile */
+        .filters-mobile {
+            background: #FFF8EE;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .filters-title-mobile {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #7A1F2A;
+            margin-bottom: 10px;
+        }
+        .filter-input {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            background: white;
+            margin-bottom: 8px;
+        }
+        .filter-btn {
+            background: #C9A875;
+            color: #1F1813;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 4px;
+        }
+        /* Cartes menus mobile */
+        .menu-card-mobile {
+            background: white;
+            border-radius: 12px;
+            margin: 0 18px 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .menu-card-img {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #7A1F2A, #C9A875);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        .menu-card-body {
+            padding: 12px 15px;
+        }
+        .menu-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: #7A1F2A;
+            margin-bottom: 5px;
+        }
+        .menu-badges {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-mobile {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .badge-theme { background: #C9A875; color: #1F1813; }
+        .badge-regime { background: #8FA876; color: white; }
+        .badge-people { background: #ddd; color: #444; }
+        .menu-card-price {
+            color: #7A1F2A;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        /* Espace user mobile */
+        .user-greeting-mobile {
+            background: #1F1813;
+            color: #F5EBDE;
+            padding: 25px 20px;
+        }
+        .user-greeting-mobile h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+        }
+        .user-greeting-mobile h2 span { color: #C9A875; }
+        .user-greeting-mobile p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        .order-card-mobile {
+            background: white;
+            border-radius: 12px;
+            margin: 15px 18px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .order-header-mobile {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .order-id-mobile {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #7A1F2A;
+        }
+        .order-status-mobile {
+            background: #8FA876;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .order-info-mobile {
+            font-size: 0.78rem;
+            margin-bottom: 4px;
+        }
+        .order-info-mobile strong { color: #7A1F2A; }
+        .review-form-mobile {
+            background: #FFF8EE;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .review-form-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #7A1F2A;
+            margin-bottom: 8px;
+        }
+        .review-stars-input {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #C9A875;
+        }
+        .review-textarea {
+            width: 100%;
+            min-height: 50px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            background: white;
+        }
+        .review-submit {
+            background: #C9A875;
+            color: #1F1813;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        /* Footer mobile minimal */
+        .mobile-footer {
+            background: #1F1813;
+            color: #F5EBDE;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: auto;
+        }
+        @media print {
+            body { padding: 20px; }
+            .mockups-row { gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">Maquettes mobiles — Vite &amp; Gourmand</h1>
+    <p class="page-subtitle">Conception responsive pour smartphones (largeur ~375px). Projet ECF TP DWWM — Studi.</p>
+
+    <div class="mockups-row">
+
+        <!-- ============================================ -->
+        <!-- MAQUETTE 1 : ACCUEIL MOBILE                  -->
+        <!-- ============================================ -->
+        <div class="mockup-container">
+            <div class="mockup-label">📱 1. Accueil mobile</div>
+            <p class="mockup-description">Page d'accueil avec hero, présentation rapide et témoignages clients.</p>
+            <div class="phone">
+                <div class="phone-screen">
+                    <!-- Header -->
+                    <div class="mobile-header">
+                        <div class="mobile-logo">Vite <span>&amp;</span> Gourmand</div>
+                        <div class="mobile-burger">☰</div>
+                    </div>
+                    <!-- Hero -->
+                    <div class="mobile-hero">
+                        <h1>Bienvenue chez <span>Vite &amp; Gourmand</span></h1>
+                        <p>Traiteur d'exception à Bordeaux depuis 25 ans.</p>
+                        <a href="#" class="btn-gold-mobile">Découvrir nos menus</a>
+                    </div>
+                    <!-- Témoignages -->
+                    <div class="mobile-section">
+                        <div class="mobile-section-title">L'avis de nos clients</div>
+                        <div class="testimonial-card-mobile">
+                            <div class="testimonial-stars-mobile">★★★★★</div>
+                            <div class="testimonial-text-mobile">"Une équipe à l'écoute, des plats raffinés..."</div>
+                            <div class="testimonial-author-mobile">— Sophie &amp; Marc</div>
+                        </div>
+                        <div class="testimonial-card-mobile">
+                            <div class="testimonial-stars-mobile">★★★★★</div>
+                            <div class="testimonial-text-mobile">"Service impeccable pour notre séminaire..."</div>
+                            <div class="testimonial-author-mobile">— Laurent D.</div>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="mobile-footer">© 2026 Vite &amp; Gourmand</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MAQUETTE 2 : LISTE DES MENUS MOBILE          -->
+        <!-- ============================================ -->
+        <div class="mockup-container">
+            <div class="mockup-label">📱 2. Nos menus mobile</div>
+            <p class="mockup-description">Catalogue des menus avec filtres adaptés au mobile (prix, thème, régime, etc.).</p>
+            <div class="phone">
+                <div class="phone-screen">
+                    <!-- Header -->
+                    <div class="mobile-header">
+                        <div class="mobile-logo">Vite <span>&amp;</span> Gourmand</div>
+                        <div class="mobile-burger">☰</div>
+                    </div>
+                    <!-- Filtres -->
+                    <div class="filters-mobile">
+                        <div class="filters-title-mobile">🔍 Rechercher un menu</div>
+                        <input type="text" class="filter-input" placeholder="Prix minimum (€)">
+                        <input type="text" class="filter-input" placeholder="Prix maximum (€)">
+                        <select class="filter-input">
+                            <option>Choisir un thème</option>
+                        </select>
+                        <select class="filter-input">
+                            <option>Choisir un régime</option>
+                        </select>
+                        <input type="text" class="filter-input" placeholder="Nb personnes minimum">
+                        <button class="filter-btn">Filtrer</button>
+                    </div>
+                    <!-- Cartes menus -->
+                    <div class="menu-card-mobile">
+                        <div class="menu-card-img">🍽️</div>
+                        <div class="menu-card-body">
+                            <div class="menu-card-title">Menu Prestige Mariage</div>
+                            <div class="menu-badges">
+                                <span class="badge-mobile badge-theme">Noel</span>
+                                <span class="badge-mobile badge-regime">classique</span>
+                                <span class="badge-mobile badge-people">30 pers.</span>
+                            </div>
+                            <div class="menu-card-price">89,00 €</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MAQUETTE 3 : ESPACE UTILISATEUR MOBILE       -->
+        <!-- ============================================ -->
+        <div class="mockup-container">
+            <div class="mockup-label">📱 3. Mon espace mobile</div>
+            <p class="mockup-description">Espace personnel client avec liste des commandes et formulaire d'avis.</p>
+            <div class="phone">
+                <div class="phone-screen">
+                    <!-- Header -->
+                    <div class="mobile-header">
+                        <div class="mobile-logo">Vite <span>&amp;</span> Gourmand</div>
+                        <div class="mobile-burger">☰</div>
+                    </div>
+                    <!-- User greeting -->
+                    <div class="user-greeting-mobile">
+                        <h2>Bonjour <span>Testeur</span> !</h2>
+                        <p>Gérez votre compte et suivez vos commandes</p>
+                    </div>
+                    <!-- Commande terminée -->
+                    <div class="order-card-mobile">
+                        <div class="order-header-mobile">
+                            <div class="order-id-mobile">CMD-6A0A35E94F156</div>
+                            <div class="order-status-mobile">terminee</div>
+                        </div>
+                        <div class="order-info-mobile"><strong>Menu :</strong> Prestige Mariage</div>
+                        <div class="order-info-mobile"><strong>Date :</strong> 17/05/2026</div>
+                        <div class="order-info-mobile"><strong>Total :</strong> 89,00 €</div>
+                        <!-- Formulaire avis -->
+                        <div class="review-form-mobile">
+                            <div class="review-form-title">⭐ Laissez votre avis</div>
+                            <div class="review-stars-input">★ ★ ★ ★ ★</div>
+                            <textarea class="review-textarea" placeholder="Partagez votre expérience..."></textarea>
+                            <button class="review-submit">Publier mon avis</button>
+                        </div>
+                    </div>
+                    <div class="mobile-footer">© 2026 Vite &amp; Gourmand</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
