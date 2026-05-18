@@ -53,27 +53,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prix_total = $prix_menu_total + $prix_livraison;
         $numero_commande = 'CMD-' . strtoupper(uniqid());
 
-        $stmt = $pdo->prepare("INSERT INTO commande 
-            (numero_commande, date_commande, date_prestation, heure_livraison, adresse_livraison, nombre_personne, prix_menu, prix_livraison, prix_total, statut, utilisateur_id, menu_id)
-            VALUES (:numero, NOW(), :date_prestation, :heure, :adresse, :nb_pers, :prix_menu, :prix_liv, :prix_total, 'en attente', :user_id, :menu_id)");
-        $stmt->execute([
-            ':numero' => $numero_commande,
-            ':date_prestation' => $date_prestation,
-            ':heure' => $heure_livraison,
-            ':adresse' => $adresse_livraison,
-            ':nb_pers' => $nombre_personne,
-            ':prix_menu' => $prix_menu_total,
-            ':prix_liv' => $prix_livraison,
-            ':prix_total' => $prix_total,
-            ':user_id' => $utilisateur['utilisateur_id'],
-            ':menu_id' => $menu_id_post
-        ]);
+        // ===== TRANSACTION : création atomique de la commande =====
+        try {
+            $pdo->beginTransaction();
 
-        // Réduction du stock
-        $pdo->prepare("UPDATE menu SET quantite_restante = quantite_restante - 1 WHERE menu_id = :id")
-            ->execute([':id' => $menu_id_post]);
+            // Re-vérification du stock avec verrou (anti-survente / race condition)
+            $stmt_stock = $pdo->prepare("SELECT quantite_restante FROM menu WHERE menu_id = :id FOR UPDATE");
+            $stmt_stock->execute([':id' => $menu_id_post]);
+            $stock_actuel = $stmt_stock->fetchColumn();
 
-        $succes = "✅ Commande $numero_commande confirmée ! Total : " . number_format($prix_total, 2) . " €";
+            if ($stock_actuel <= 0) {
+                $pdo->rollBack();
+                $erreur = "Désolé, ce menu n'est plus disponible.";
+            } else {
+                // 1. INSERT commande
+                $stmt = $pdo->prepare("INSERT INTO commande 
+                    (numero_commande, date_commande, date_prestation, heure_livraison, adresse_livraison, nombre_personne, prix_menu, prix_livraison, prix_total, statut, utilisateur_id, menu_id)
+                    VALUES (:numero, NOW(), :date_prestation, :heure, :adresse, :nb_pers, :prix_menu, :prix_liv, :prix_total, 'en attente', :user_id, :menu_id)");
+                $stmt->execute([
+                    ':numero' => $numero_commande,
+                    ':date_prestation' => $date_prestation,
+                    ':heure' => $heure_livraison,
+                    ':adresse' => $adresse_livraison,
+                    ':nb_pers' => $nombre_personne,
+                    ':prix_menu' => $prix_menu_total,
+                    ':prix_liv' => $prix_livraison,
+                    ':prix_total' => $prix_total,
+                    ':user_id' => $utilisateur['utilisateur_id'],
+                    ':menu_id' => $menu_id_post
+                ]);
+
+                $commande_id = $pdo->lastInsertId();
+
+                // 2. INSERT premier suivi (historique de la commande)
+                $stmt_suivi = $pdo->prepare("INSERT INTO suivi_commande (commande_id, statut, date_modification) 
+                    VALUES (:cmd_id, 'en attente', NOW())");
+                $stmt_suivi->execute([':cmd_id' => $commande_id]);
+
+                // 3. UPDATE stock (décrémente quantite_restante)
+                $stmt_stock_update = $pdo->prepare("UPDATE menu SET quantite_restante = quantite_restante - 1 WHERE menu_id = :id");
+                $stmt_stock_update->execute([':id' => $menu_id_post]);
+
+                // Validation de la transaction
+                $pdo->commit();
+
+                $succes = "✅ Commande $numero_commande confirmée ! Total : " . number_format($prix_total, 2) . " €";
+            }
+        } catch (PDOException $e) {
+            // Annulation de toutes les opérations en cas d'erreur
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $erreur = "Une erreur est survenue lors de la création de la commande. Veuillez réessayer.";
+            // En production, logger l'erreur côté serveur :
+            // error_log('Erreur commande : ' . $e->getMessage());
+        }
     }
 }
 ?>
