@@ -1,12 +1,3 @@
-# Fichiers de configuration sensibles
-.env
-.env.local
-config/.env
-
-# Fichiers système
-.DS_Store
-Thumbs.db
-
 # Fichiers de l'éditeur
 .vscode/
 .idea/
@@ -21,3 +12,25 @@ Thumbs.db
 # Fichiers temporaires
 *.tmp
 *.bak
+
+# Fichiers de configuration sensibles (mots de passe, clés API)
+/config/mongodb.php
+/config/database.php
+/config/*.secret.php
+
+# Fichiers de notes personnelles
+notes-mongodb.txt
+notes-*.txt
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Fichiers de test temporaires
+test-mongodb.php
+test-*.php
+
+# Fichiers système macOS / Windows
+.DS_Store
+Thumbs.db
