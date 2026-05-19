@@ -2,15 +2,6 @@
 include_once __DIR__ . '/../includes/header.php';
 
 // ============================================================
-// RÉCUPÉRATION DES FILTRES (depuis le formulaire GET)
-// ============================================================
-$filtre_prix_min      = isset($_GET['prix_min']) && $_GET['prix_min'] !== '' ? floatval($_GET['prix_min']) : null;
-$filtre_prix_max      = isset($_GET['prix_max']) && $_GET['prix_max'] !== '' ? floatval($_GET['prix_max']) : null;
-$filtre_theme_id      = isset($_GET['theme_id']) && $_GET['theme_id'] !== '' ? intval($_GET['theme_id']) : null;
-$filtre_regime_id     = isset($_GET['regime_id']) && $_GET['regime_id'] !== '' ? intval($_GET['regime_id']) : null;
-$filtre_nb_personnes  = isset($_GET['nb_personnes']) && $_GET['nb_personnes'] !== '' ? intval($_GET['nb_personnes']) : null;
-
-// ============================================================
 // RÉCUPÉRATION DES THÈMES ET RÉGIMES (pour les selects du formulaire)
 // ============================================================
 $themes = [];
@@ -23,50 +14,16 @@ try {
 }
 
 // ============================================================
-// CONSTRUCTION DE LA REQUÊTE SQL AVEC FILTRES
-// ============================================================
-$sql = "SELECT m.*, t.libelle AS theme_libelle, r.libelle AS regime_libelle 
-        FROM menu m 
-        JOIN theme t ON m.theme_id = t.theme_id 
-        JOIN regime r ON m.regime_id = r.regime_id 
-        WHERE 1=1";
-$params = [];
-
-if ($filtre_prix_min !== null) {
-    $sql .= " AND m.prix >= :prix_min";
-    $params[':prix_min'] = $filtre_prix_min;
-}
-
-if ($filtre_prix_max !== null) {
-    $sql .= " AND m.prix <= :prix_max";
-    $params[':prix_max'] = $filtre_prix_max;
-}
-
-if ($filtre_theme_id !== null) {
-    $sql .= " AND m.theme_id = :theme_id";
-    $params[':theme_id'] = $filtre_theme_id;
-}
-
-if ($filtre_regime_id !== null) {
-    $sql .= " AND m.regime_id = :regime_id";
-    $params[':regime_id'] = $filtre_regime_id;
-}
-
-if ($filtre_nb_personnes !== null) {
-    $sql .= " AND m.nombre_personne_minimum <= :nb_personnes";
-    $params[':nb_personnes'] = $filtre_nb_personnes;
-}
-
-$sql .= " ORDER BY m.menu_id";
-
-// ============================================================
-// EXÉCUTION DE LA REQUÊTE
+// RÉCUPÉRATION DE TOUS LES MENUS (sans filtre - filtrage côté JS)
 // ============================================================
 $menus = [];
 try {
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    $menus = $stmt->fetchAll();
+    $sql = "SELECT m.*, t.libelle AS theme_libelle, r.libelle AS regime_libelle 
+            FROM menu m 
+            JOIN theme t ON m.theme_id = t.theme_id 
+            JOIN regime r ON m.regime_id = r.regime_id 
+            ORDER BY m.menu_id";
+    $menus = $pdo->query($sql)->fetchAll();
 } catch (Exception $e) {
     // Si la requête échoue, on continue avec un tableau vide
 }
@@ -78,9 +35,6 @@ $photos_menus = [
     'menu-anniversaire.jpg',
     'hero-accueil.jpg'
 ];
-
-// Vérifier si au moins un filtre est actif (pour affichage)
-$filtres_actifs = ($filtre_prix_min !== null || $filtre_prix_max !== null || $filtre_theme_id !== null || $filtre_regime_id !== null || $filtre_nb_personnes !== null);
 ?>
 
 <!-- ==========================================================================
@@ -97,67 +51,55 @@ $filtres_actifs = ($filtre_prix_min !== null || $filtre_prix_max !== null || $fi
 </section>
 
 <!-- ==========================================================================
-     FORMULAIRE DE FILTRES
+     FORMULAIRE DE FILTRES (dynamiques, sans rechargement)
 ========================================================================== -->
 <section class="section-padding section-cream" style="padding-bottom: 1rem;">
     <div class="container">
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="mb-3" style="color: var(--color-bordeaux);">🔍 Rechercher un menu</h5>
-                <form method="GET" action="<?= $BASE_URL ?>/pages/menus.php">
-                    <div class="row g-3">
-                        <!-- Prix minimum -->
-                        <div class="col-md-4 col-lg-2">
-                            <label class="form-label">Prix minimum (€)</label>
-                            <input type="number" name="prix_min" class="form-control" min="0" step="0.01" 
-                                   value="<?= $filtre_prix_min !== null ? htmlspecialchars($filtre_prix_min) : '' ?>" 
-                                   placeholder="0">
-                        </div>
-                        <!-- Prix maximum -->
-                        <div class="col-md-4 col-lg-2">
-                            <label class="form-label">Prix maximum (€)</label>
-                            <input type="number" name="prix_max" class="form-control" min="0" step="0.01" 
-                                   value="<?= $filtre_prix_max !== null ? htmlspecialchars($filtre_prix_max) : '' ?>" 
-                                   placeholder="1000">
-                        </div>
-                        <!-- Thème -->
-                        <div class="col-md-4 col-lg-2">
-                            <label class="form-label">Thème</label>
-                            <select name="theme_id" class="form-select">
-                                <option value="">Tous</option>
-                                <?php foreach ($themes as $t): ?>
-                                    <option value="<?= $t['theme_id'] ?>" <?= $filtre_theme_id === intval($t['theme_id']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($t['libelle']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <!-- Régime -->
-                        <div class="col-md-4 col-lg-2">
-                            <label class="form-label">Régime</label>
-                            <select name="regime_id" class="form-select">
-                                <option value="">Tous</option>
-                                <?php foreach ($regimes as $r): ?>
-                                    <option value="<?= $r['regime_id'] ?>" <?= $filtre_regime_id === intval($r['regime_id']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($r['libelle']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <!-- Nombre de personnes -->
-                        <div class="col-md-4 col-lg-2">
-                            <label class="form-label">Nb personnes</label>
-                            <input type="number" name="nb_personnes" class="form-control" min="1" 
-                                   value="<?= $filtre_nb_personnes !== null ? htmlspecialchars($filtre_nb_personnes) : '' ?>" 
-                                   placeholder="ex: 20">
-                        </div>
-                        <!-- Boutons -->
-                        <div class="col-md-4 col-lg-2 d-flex align-items-end gap-2">
-                            <button type="submit" class="btn btn-warning flex-grow-1">Filtrer</button>
-                            <a href="<?= $BASE_URL ?>/pages/menus.php" class="btn btn-outline-secondary" title="Réinitialiser">↻</a>
-                        </div>
+                <!-- Filtres JS pur : pas de submit, pas de rechargement -->
+                <div class="row g-3">
+                    <!-- Prix minimum -->
+                    <div class="col-md-4 col-lg-2">
+                        <label class="form-label" for="filtre-prix-min">Prix minimum (€)</label>
+                        <input type="number" id="filtre-prix-min" class="form-control filtre" min="0" step="0.01" placeholder="0">
                     </div>
-                </form>
+                    <!-- Prix maximum -->
+                    <div class="col-md-4 col-lg-2">
+                        <label class="form-label" for="filtre-prix-max">Prix maximum (€)</label>
+                        <input type="number" id="filtre-prix-max" class="form-control filtre" min="0" step="0.01" placeholder="1000">
+                    </div>
+                    <!-- Thème -->
+                    <div class="col-md-4 col-lg-2">
+                        <label class="form-label" for="filtre-theme">Thème</label>
+                        <select id="filtre-theme" class="form-select filtre">
+                            <option value="">Tous</option>
+                            <?php foreach ($themes as $t): ?>
+                                <option value="<?= $t['theme_id'] ?>"><?= htmlspecialchars($t['libelle']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <!-- Régime -->
+                    <div class="col-md-4 col-lg-2">
+                        <label class="form-label" for="filtre-regime">Régime</label>
+                        <select id="filtre-regime" class="form-select filtre">
+                            <option value="">Tous</option>
+                            <?php foreach ($regimes as $r): ?>
+                                <option value="<?= $r['regime_id'] ?>"><?= htmlspecialchars($r['libelle']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <!-- Nombre de personnes -->
+                    <div class="col-md-4 col-lg-2">
+                        <label class="form-label" for="filtre-nb-personnes">Nb personnes</label>
+                        <input type="number" id="filtre-nb-personnes" class="form-control filtre" min="1" placeholder="ex: 20">
+                    </div>
+                    <!-- Bouton reset -->
+                    <div class="col-md-4 col-lg-2 d-flex align-items-end">
+                        <button type="button" id="btn-reset-filtres" class="btn btn-outline-secondary w-100" title="Réinitialiser tous les filtres">↻ Réinitialiser</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -170,30 +112,31 @@ $filtres_actifs = ($filtre_prix_min !== null || $filtre_prix_max !== null || $fi
     <div class="container">
         <div class="section-title">
             <h2>Une carte d'exception</h2>
-            <p class="subtitle">
-                <?php if ($filtres_actifs): ?>
-                    <?= count($menus) ?> menu<?= count($menus) > 1 ? 's' : '' ?> correspondant<?= count($menus) > 1 ? 's' : '' ?> à votre recherche.
-                <?php else: ?>
-                    Chaque menu est pensé pour s'adapter à votre événement, vos goûts et votre budget. Cliquez pour découvrir le détail.
-                <?php endif; ?>
+            <p class="subtitle" id="texte-resultats">
+                Chaque menu est pensé pour s'adapter à votre événement, vos goûts et votre budget. Cliquez pour découvrir le détail.
             </p>
+        </div>
+
+        <!-- Message "aucun résultat" (caché par défaut, affiché par JS) -->
+        <div id="message-aucun-resultat" class="text-center mt-5" style="display: none;">
+            <p class="text-muted">Aucun menu ne correspond à vos critères de recherche.</p>
+            <button type="button" id="btn-reset-aucun-resultat" class="btn-primary-custom" style="border: none; cursor: pointer;">Voir tous les menus</button>
         </div>
 
         <?php if (empty($menus)): ?>
             <div class="text-center mt-5">
-                <?php if ($filtres_actifs): ?>
-                    <p class="text-muted">Aucun menu ne correspond à vos critères de recherche.</p>
-                    <a href="<?= $BASE_URL ?>/pages/menus.php" class="btn-primary-custom">Voir tous les menus</a>
-                <?php else: ?>
-                    <p class="text-muted">Aucun menu disponible pour le moment. Revenez bientôt !</p>
-                <?php endif; ?>
+                <p class="text-muted">Aucun menu disponible pour le moment. Revenez bientôt !</p>
             </div>
         <?php else: ?>
-            <div class="row mt-5">
+            <div class="row mt-5" id="liste-menus">
                 <?php foreach ($menus as $index => $menu): 
                     $photo = $photos_menus[$index % count($photos_menus)];
                 ?>
-                    <div class="col-lg-6 mb-4">
+                    <div class="col-lg-6 mb-4 carte-menu"
+                         data-prix="<?= $menu['prix'] ?>"
+                         data-theme="<?= $menu['theme_id'] ?>"
+                         data-regime="<?= $menu['regime_id'] ?>"
+                         data-min-personnes="<?= $menu['nombre_personne_minimum'] ?>">
                         <div class="menu-detail-card">
                             <div class="menu-detail-image">
                                 <img src="<?= $BASE_URL ?>/assets/images/<?= $photo ?>" alt="<?= htmlspecialchars($menu['titre']) ?>">
@@ -231,5 +174,109 @@ $filtres_actifs = ($filtre_prix_min !== null || $filtre_prix_max !== null || $fi
         <a href="<?= $BASE_URL ?>/pages/contact.php" class="btn-gold">Demander un devis</a>
     </div>
 </section>
+
+<!-- ==========================================================================
+     SCRIPT — FILTRES DYNAMIQUES SANS RECHARGEMENT
+========================================================================== -->
+<script>
+(function() {
+    'use strict';
+    
+    // Récupération des éléments DOM
+    const inputPrixMin    = document.getElementById('filtre-prix-min');
+    const inputPrixMax    = document.getElementById('filtre-prix-max');
+    const selectTheme     = document.getElementById('filtre-theme');
+    const selectRegime    = document.getElementById('filtre-regime');
+    const inputNbPersonnes = document.getElementById('filtre-nb-personnes');
+    const btnReset        = document.getElementById('btn-reset-filtres');
+    const btnResetAucun   = document.getElementById('btn-reset-aucun-resultat');
+    const cartes          = document.querySelectorAll('.carte-menu');
+    const texteResultats  = document.getElementById('texte-resultats');
+    const messageAucun    = document.getElementById('message-aucun-resultat');
+    const listeMenus      = document.getElementById('liste-menus');
+    
+    // Texte par défaut (sans filtre actif)
+    const TEXTE_DEFAUT = "Chaque menu est pensé pour s'adapter à votre événement, vos goûts et votre budget. Cliquez pour découvrir le détail.";
+    
+    /**
+     * Filtre les cartes selon les valeurs des filtres actuels.
+     * Affiche/cache chaque carte avec display: block/none.
+     */
+    function appliquerFiltres() {
+        // Lecture des valeurs des filtres
+        const prixMin     = inputPrixMin.value !== '' ? parseFloat(inputPrixMin.value) : null;
+        const prixMax     = inputPrixMax.value !== '' ? parseFloat(inputPrixMax.value) : null;
+        const themeId     = selectTheme.value;
+        const regimeId    = selectRegime.value;
+        const nbPersonnes = inputNbPersonnes.value !== '' ? parseInt(inputNbPersonnes.value, 10) : null;
+        
+        // Au moins un filtre est-il actif ?
+        const filtresActifs = (prixMin !== null || prixMax !== null || themeId !== '' || regimeId !== '' || nbPersonnes !== null);
+        
+        // Parcours de chaque carte
+        let nbVisibles = 0;
+        cartes.forEach(function(carte) {
+            const prixCarte    = parseFloat(carte.dataset.prix);
+            const themeCarte   = carte.dataset.theme;
+            const regimeCarte  = carte.dataset.regime;
+            const minPersonnes = parseInt(carte.dataset.minPersonnes, 10);
+            
+            // Vérification de chaque critère (true = passe le filtre)
+            let visible = true;
+            
+            if (prixMin !== null && prixCarte < prixMin) visible = false;
+            if (prixMax !== null && prixCarte > prixMax) visible = false;
+            if (themeId !== '' && themeCarte !== themeId) visible = false;
+            if (regimeId !== '' && regimeCarte !== regimeId) visible = false;
+            if (nbPersonnes !== null && minPersonnes > nbPersonnes) visible = false;
+            
+            // Affichage/masquage
+            carte.style.display = visible ? '' : 'none';
+            if (visible) nbVisibles++;
+        });
+        
+        // Mise à jour du texte de résultats
+        if (filtresActifs) {
+            if (nbVisibles === 0) {
+                texteResultats.textContent = '';
+                messageAucun.style.display = 'block';
+                if (listeMenus) listeMenus.style.display = 'none';
+            } else {
+                texteResultats.textContent = nbVisibles + ' menu' + (nbVisibles > 1 ? 's' : '') + ' correspondant' + (nbVisibles > 1 ? 's' : '') + ' à votre recherche.';
+                messageAucun.style.display = 'none';
+                if (listeMenus) listeMenus.style.display = '';
+            }
+        } else {
+            texteResultats.textContent = TEXTE_DEFAUT;
+            messageAucun.style.display = 'none';
+            if (listeMenus) listeMenus.style.display = '';
+        }
+    }
+    
+    /**
+     * Réinitialise tous les filtres et réaffiche toutes les cartes.
+     */
+    function reinitialiserFiltres() {
+        inputPrixMin.value = '';
+        inputPrixMax.value = '';
+        selectTheme.value = '';
+        selectRegime.value = '';
+        inputNbPersonnes.value = '';
+        appliquerFiltres();
+    }
+    
+    // Écouteurs d'événements : filtrage instantané au changement
+    [inputPrixMin, inputPrixMax, inputNbPersonnes].forEach(function(input) {
+        input.addEventListener('input', appliquerFiltres);
+    });
+    [selectTheme, selectRegime].forEach(function(select) {
+        select.addEventListener('change', appliquerFiltres);
+    });
+    
+    // Boutons de réinitialisation
+    if (btnReset) btnReset.addEventListener('click', reinitialiserFiltres);
+    if (btnResetAucun) btnResetAucun.addEventListener('click', reinitialiserFiltres);
+})();
+</script>
 
 <?php include_once __DIR__ . '/../includes/footer.php'; ?>
