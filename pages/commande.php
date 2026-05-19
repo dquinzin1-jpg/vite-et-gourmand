@@ -1,5 +1,6 @@
 <?php 
 include_once '../includes/header.php';
+require_once __DIR__ . '/../config/mongodb.php';
 
 if (!isset($_SESSION['utilisateur'])) {
     header('Location: /pages/connexion.php');
@@ -94,8 +95,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt_stock_update = $pdo->prepare("UPDATE menu SET quantite_restante = quantite_restante - 1 WHERE menu_id = :id");
                 $stmt_stock_update->execute([':id' => $menu_id_post]);
 
-                // Validation de la transaction
+                // Validation de la transaction MariaDB
                 $pdo->commit();
+
+                // ===== STRATÉGIE B : insertion événement dans MongoDB =====
+                // MongoDB sert de base analytique pour les stats admin (graphique commandes/menu).
+                // Insertion APRÈS le commit MariaDB : si MongoDB échoue, la commande reste valide.
+                try {
+                    $manager = getMongoManager();
+                    $bulk = new MongoDB\Driver\BulkWrite;
+                    $bulk->insert([
+                        'commande_id'     => (int) $commande_id,
+                        'numero_commande' => $numero_commande,
+                        'menu_id'         => $menu_id_post,
+                        'menu_titre'      => $menu_choisi['titre'],
+                        'utilisateur_id'  => (int) $utilisateur['utilisateur_id'],
+                        'nombre_personne' => $nombre_personne,
+                        'prix_total'      => (float) $prix_total,
+                        'date_commande'   => new MongoDB\BSON\UTCDateTime(),
+                        'statut'          => 'en attente',
+                    ]);
+                    $namespace = MONGODB_DATABASE . '.' . MONGODB_COLLECTION_COMMANDES;
+                    $manager->executeBulkWrite($namespace, $bulk);
+                } catch (Exception $e) {
+                    // Échec MongoDB non bloquant : la commande MariaDB est déjà validée.
+                    // En production, on loggerait l'erreur pour suivi et resync ultérieur.
+                    // error_log('MongoDB sync failed for commande ' . $numero_commande . ': ' . $e->getMessage());
+                }
 
                 $succes = "✅ Commande $numero_commande confirmée ! Total : " . number_format($prix_total, 2) . " €";
             }

@@ -1,5 +1,6 @@
 <?php 
 include_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../config/mongodb.php';
 
 if (!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] !== 'administrateur') {
     header('Location: ' . $BASE_URL . '/pages/connexion.php');
@@ -40,8 +41,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // Récupération des employés
 $employes = $pdo->query("SELECT * FROM utilisateur WHERE role_id = 2")->fetchAll();
 
-// Statistiques commandes par menu
-$stats = $pdo->query("SELECT m.titre, COUNT(c.commande_id) as nb_commandes, SUM(c.prix_total) as chiffre_affaires FROM commande c JOIN menu m ON c.menu_id = m.menu_id WHERE c.statut != 'annulee' GROUP BY m.menu_id")->fetchAll();
+// ===== STATISTIQUES — Lecture depuis MongoDB (base NoSQL analytique) =====
+// L'énoncé exige que les données du graphique viennent d'une base non relationnelle.
+// On utilise une agrégation MongoDB pour grouper les commandes par menu.
+$stats = [];
+try {
+    $manager = getMongoManager();
+    
+    // Pipeline d'agrégation MongoDB :
+    // 1. $match : exclure les commandes annulées
+    // 2. $group : grouper par menu_id, compter et sommer les prix
+    // 3. $sort : trier par nombre de commandes décroissant
+    $pipeline = [
+        ['$match' => ['statut' => ['$ne' => 'annulee']]],
+        ['$group' => [
+            '_id' => '$menu_id',
+            'titre' => ['$first' => '$menu_titre'],
+            'nb_commandes' => ['$sum' => 1],
+            'chiffre_affaires' => ['$sum' => '$prix_total']
+        ]],
+        ['$sort' => ['nb_commandes' => -1]]
+    ];
+    
+    $command = new MongoDB\Driver\Command([
+        'aggregate' => MONGODB_COLLECTION_COMMANDES,
+        'pipeline' => $pipeline,
+        'cursor' => new stdClass()
+    ]);
+    
+    $cursor = $manager->executeCommand(MONGODB_DATABASE, $command);
+    
+    foreach ($cursor as $result) {
+        $stats[] = [
+            'titre' => $result->titre ?? 'Menu inconnu',
+            'nb_commandes' => $result->nb_commandes,
+            'chiffre_affaires' => $result->chiffre_affaires
+        ];
+    }
+} catch (Exception $e) {
+    // Si MongoDB est indisponible, on affiche un message mais on continue
+    $erreur = "Statistiques temporairement indisponibles (MongoDB) : " . $e->getMessage();
+}
 ?>
 
 <section class="dashboard-section">
@@ -133,34 +173,39 @@ $stats = $pdo->query("SELECT m.titre, COUNT(c.commande_id) as nb_commandes, SUM(
             </div>
         </div>
 
-        <!-- Statistiques -->
+        <!-- Statistiques depuis MongoDB -->
         <div class="card mb-4">
             <div class="card-body">
-                <h5>📊 Statistiques par menu</h5>
-                <canvas id="graphique-commandes" height="100"></canvas>
-                <table class="table table-striped mt-4">
-                    <thead>
-                        <tr>
-                            <th>Menu</th>
-                            <th>Nb commandes</th>
-                            <th>Chiffre d'affaires</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($stats as $s): ?>
+                <h5>📊 Statistiques par menu <small class="text-muted">(source : MongoDB)</small></h5>
+                <?php if (empty($stats)): ?>
+                    <p class="text-muted">Aucune commande pour le moment. Les statistiques apparaîtront ici dès qu'une commande sera passée.</p>
+                <?php else: ?>
+                    <canvas id="graphique-commandes" height="100"></canvas>
+                    <table class="table table-striped mt-4">
+                        <thead>
                             <tr>
-                                <td><?= htmlspecialchars($s['titre']) ?></td>
-                                <td><?= $s['nb_commandes'] ?></td>
-                                <td><?= number_format($s['chiffre_affaires'], 2) ?> €</td>
+                                <th>Menu</th>
+                                <th>Nb commandes</th>
+                                <th>Chiffre d'affaires</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($stats as $s): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($s['titre']) ?></td>
+                                    <td><?= $s['nb_commandes'] ?></td>
+                                    <td><?= number_format($s['chiffre_affaires'], 2) ?> €</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </section>
 
+<?php if (!empty($stats)): ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const labels = <?= json_encode(array_column($stats, 'titre')) ?>;
@@ -182,9 +227,16 @@ new Chart(document.getElementById('graphique-commandes'), {
         responsive: true,
         plugins: {
             legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1 }
+            }
         }
     }
 });
 </script>
+<?php endif; ?>
 
 <?php include_once __DIR__ . '/../includes/footer.php'; ?>
