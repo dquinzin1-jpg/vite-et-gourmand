@@ -18,11 +18,18 @@
 /config/database.php
 /config/*.secret.php
 
+# Fichier d'environnement (credentials BDD - ne JAMAIS commiter)
+/config/.env
+/config/.env.local
+
+# Garder .env.example dans Git pour servir de modèle
+!/config/.env.example
+
 # Fichiers de notes personnelles
 notes-mongodb.txt
 notes-*.txt
 
-# Variables d'environnement
+# Variables d'environnement à la racine
 .env
 .env.local
 .env.*.local
