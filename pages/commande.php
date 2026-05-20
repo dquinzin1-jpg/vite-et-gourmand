@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $adresse_livraison = trim($_POST['adresse_livraison']);
     $date_prestation = $_POST['date_prestation'];
     $heure_livraison = $_POST['heure_livraison'];
+    $distance_km = isset($_POST['distance_km']) ? max(0, intval($_POST['distance_km'])) : 0;
 
     $stmt = $pdo->prepare("SELECT * FROM menu WHERE menu_id = :id");
     $stmt->execute([':id' => $menu_id_post]);
@@ -45,10 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $prix_menu_total = ($prix_menu / $menu_choisi['nombre_personne_minimum']) * $nombre_personne;
 
-        // Calcul livraison
+        // Calcul des frais de livraison : gratuit dans Bordeaux,
+        // sinon 5 € de base majorés de 0,59 € par kilomètre parcouru.
         $prix_livraison = 0;
         if (stripos($adresse_livraison, 'bordeaux') === false) {
-            $prix_livraison = 5;
+            $prix_livraison = 5 + ($distance_km * 0.59);
         }
 
         $prix_total = $prix_menu_total + $prix_livraison;
@@ -180,14 +182,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Adresse de livraison</label>
-                        <input type="text" name="adresse_livraison" class="form-control" required>
-                        <small class="text-muted">Hors Bordeaux : +5€ de frais de livraison</small>
+                        <input type="text" name="adresse_livraison" id="adresse-livraison" class="form-control" required oninput="calculerPrix()">
+                        <small class="text-muted">Hors Bordeaux : 5 € + 0,59 €/km</small>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Distance depuis Bordeaux (km)</label>
+                        <input type="number" name="distance_km" id="distance-km" class="form-control" min="0" step="1" value="0" oninput="calculerPrix()">
+                        <small class="text-muted">À renseigner uniquement pour une livraison hors Bordeaux.</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Date de la prestation</label>
                         <input type="date" name="date_prestation" class="form-control" required>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Heure souhaitée</label>
                         <input type="time" name="heure_livraison" class="form-control" required>
                     </div>
@@ -256,8 +265,10 @@ function calculerPrix() {
     let prixMenu = (prixBase / min) * nb;
     if (nb >= min + 5) prixMenu = prixMenu * 0.90;
 
-    const adresse = document.querySelector('[name="adresse_livraison"]').value.toLowerCase();
-    const livraison = adresse && !adresse.includes('bordeaux') ? 5 : 0;
+    const adresse = document.getElementById('adresse-livraison').value.toLowerCase();
+    const distance = parseFloat(document.getElementById('distance-km').value) || 0;
+    const horsBordeaux = adresse && !adresse.includes('bordeaux');
+    const livraison = horsBordeaux ? (5 + distance * 0.59) : 0;
 
     document.getElementById('recap-prix').style.display = 'block';
     document.getElementById('prix-menu-affiche').textContent = prixMenu.toFixed(2) + ' €';
