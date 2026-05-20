@@ -36,7 +36,7 @@ $images = $images->fetchAll();
 ?>
 
 <main class="container my-5">
-    <a href="/pages/menus.php" class="btn btn-outline-secondary mb-4">← Retour aux menus</a>
+    <a href="<?= $BASE_URL ?>/pages/menus.php" class="btn btn-outline-secondary mb-4">← Retour aux menus</a>
 
     <div class="row">
         <div class="col-md-8">
@@ -84,11 +84,11 @@ $images = $images->fetchAll();
                     <p><strong>📦 Stock :</strong> <?= $menu['quantite_restante'] ?> disponible(s)</p>
 
                     <?php if (isset($_SESSION['utilisateur'])): ?>
-                        <a href="/pages/commande.php?menu_id=<?= $menu['menu_id'] ?>" class="btn btn-warning w-100 mt-2">Commander ce menu</a>
+                        <a href="<?= $BASE_URL ?>/pages/commande.php?menu_id=<?= $menu['menu_id'] ?>" class="btn btn-warning w-100 mt-2">Commander ce menu</a>
                     <?php else: ?>
                         <div class="alert alert-info mt-3">
-                            <a href="/pages/connexion.php">Connectez-vous</a> ou 
-                            <a href="/pages/inscription.php">créez un compte</a> pour commander.
+                            <a href="<?= $BASE_URL ?>/pages/connexion.php">Connectez-vous</a> ou 
+                            <a href="<?= $BASE_URL ?>/pages/inscription.php">créez un compte</a> pour commander.
                         </div>
                     <?php endif; ?>
                 </div>
