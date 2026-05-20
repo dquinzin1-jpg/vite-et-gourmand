@@ -1,5 +1,6 @@
 <?php 
 include_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../includes/mail.php';
 
 $erreur = '';
 $succes = '';
@@ -34,6 +35,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':telephone' => $telephone,
                     ':adresse' => $adresse
                 ]);
+
+                // Mail de bienvenue (simulé en dev — voir includes/mail.php)
+                envoyerMail(
+                    $email,
+                    "Bienvenue chez Vite & Gourmand !",
+                    "Bonjour $prenom $nom,\n\n"
+                    . "Votre compte a bien été créé. Vous pouvez désormais vous "
+                    . "connecter pour consulter nos menus et passer commande.\n\n"
+                    . "À très bientôt,\nL'équipe Vite & Gourmand"
+                );
+
                 $succes = "Compte créé avec succès ! Vous pouvez vous connecter.";
             }
         }

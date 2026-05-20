@@ -1,6 +1,7 @@
 <?php 
 include_once '../includes/header.php';
 require_once __DIR__ . '/../config/mongodb.php';
+require_once __DIR__ . '/../includes/mail.php';
 
 if (!isset($_SESSION['utilisateur'])) {
     header('Location: /pages/connexion.php');
@@ -126,6 +127,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $succes = "✅ Commande $numero_commande confirmée ! Total : " . number_format($prix_total, 2) . " €";
+
+                // Mail de confirmation de commande (simulé en dev — voir includes/mail.php)
+                envoyerMail(
+                    $utilisateur['email'],
+                    "Confirmation de votre commande $numero_commande",
+                    "Bonjour " . $utilisateur['prenom'] . ",\n\n"
+                    . "Nous confirmons votre commande $numero_commande "
+                    . "(« " . $menu_choisi['titre'] . " ») pour $nombre_personne personne(s).\n"
+                    . "Montant total : " . number_format($prix_total, 2) . " € "
+                    . "(dont " . number_format($prix_livraison, 2) . " € de frais de livraison).\n\n"
+                    . "Merci de votre confiance,\nL'équipe Vite & Gourmand"
+                );
             }
         } catch (PDOException $e) {
             // Annulation de toutes les opérations en cas d'erreur
